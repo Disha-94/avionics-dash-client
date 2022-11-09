@@ -1,2 +1,2 @@
 # avionics-dash-client
-User Interface for Avionics Dash
+User Interface for Avionics Dash application
