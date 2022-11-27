@@ -1,5 +1,6 @@
 import React, { Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Main from './components/Main'; // fallback for lazy pages
 import './scss/main.scss'; // All of our styles
 
 const { PUBLIC_URL } = process.env;
@@ -20,7 +21,7 @@ const NotFound = lazy(() => import('./pages/NotFound'));
 
 const App = () => (
   <BrowserRouter basename={PUBLIC_URL}>
-    <Suspense fallback={<h1>Loading Dashboard...</h1>}>
+    <Suspense fallback={<Main />}>
       <Routes>
         <Route exact path="/" element={<Dashboard />} />
         <Route exact path="/login" element={<Login />} />

@@ -1,0 +1,17 @@
+.player-wrapper {
+    position: relative;
+    padding-top: 56.25%; /* Player ratio: 100 / (1280 / 720) */
+    padding-right: 10%;
+  }
+  
+  .react-player {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  p {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    margin: -6em 0 2em 0;
+    font-size: large;
+  }

@@ -28,19 +28,19 @@ export const mainListItems = (
     {routes.filter((l) => l.index).map((l) => {
       return(
         <>
-    <ListItemButton component={Link} to="/">
+    <ListItemButton component={Link} to="/" key={1}>
       <ListItemIcon>
         <HomeIcon />
       </ListItemIcon>
       <ListItemText primary="Home" />
     </ListItemButton>
-    <ListItemButton component={Link} to="/login">
+    <ListItemButton component={Link} to="/login" key={2}>
       <ListItemIcon>
         <LockOpenIcon />
       </ListItemIcon>
       <ListItemText primary="Login/SignUp" />
     </ListItemButton>
-    <ListItemButton component={Link} to="/programs" onClick={() => handleClick('p')}>
+    <ListItemButton component={Link} to="/programs" onClick={() => handleClick('p')} key={3}>
       <ListItemIcon>
         <SubscriptionsIcon />
       </ListItemIcon>
@@ -48,20 +48,20 @@ export const mainListItems = (
       {openProg ? <ExpandLess /> : <ExpandMore />}
     </ListItemButton>
     <Collapse in={openDis} timeout="auto" unmountOnExit>
-      <ListItemButton component={Link} to="/courses">
+      <ListItemButton component={Link} to="/courses" key={4}>
         <ListItemIcon>
           <ChatIcon />
         </ListItemIcon>
         <ListItemText primary="My Course" />
       </ListItemButton>
     </Collapse>
-    <ListItemButton component={Link} to="/files">
+    <ListItemButton component={Link} to="/files" key={5}>
       <ListItemIcon>
         <FolderIcon />
       </ListItemIcon>
       <ListItemText primary="Files" />
     </ListItemButton>
-    <ListItemButton component={Link} to="/discussions" onClick={() => handleClick('d')}>
+    <ListItemButton component={Link} to="/discussions" onClick={() => handleClick('d')} key={6}>
       <ListItemIcon>
         <ChatIcon />
       </ListItemIcon>
@@ -69,7 +69,7 @@ export const mainListItems = (
       {openDis ? <ExpandLess /> : <ExpandMore />}
     </ListItemButton> 
     <Collapse in={openDis} timeout="auto" unmountOnExit>
-      <ListItemButton component={Link} to="/inbox">
+      <ListItemButton component={Link} to="/inbox" key={7}>
         <ListItemIcon>
           <ChatIcon />
         </ListItemIcon>
