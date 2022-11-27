@@ -13,6 +13,10 @@ const routes = [
         path: '/login',
     },
     {
+        label: 'Signup',
+        path: '/signup',
+    },
+    {
         label: 'Profile',
         path: '/profile',
     },

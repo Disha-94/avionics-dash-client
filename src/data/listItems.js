@@ -3,49 +3,79 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import PeopleIcon from '@mui/icons-material/People';
-import BarChartIcon from '@mui/icons-material/BarChart';
-import LayersIcon from '@mui/icons-material/Layers';
+import Collapse from '@mui/material/Collapse';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
+import HomeIcon from '@mui/icons-material/Home';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
+import SubscriptionsIcon from '@mui/icons-material/Subscriptions';
+import ChatIcon from '@mui/icons-material/Chat';
+import FolderIcon from '@mui/icons-material/Folder';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import routes from './routes';
+import { Link } from 'react-router-dom';
+
+let openDis = false;
+let openProg = false;
+
+  const handleClick = (val) => {
+    val === 'p' ? openDis = !openDis : openProg = !openProg;
+  };
+
 
 export const mainListItems = (
   <React.Fragment>
     {routes.filter((l) => l.index).map((l) => {
       return(
         <>
-    <ListItemButton to>
+    <ListItemButton component={Link} to="/">
       <ListItemIcon>
-        <DashboardIcon />
+        <HomeIcon />
       </ListItemIcon>
       <ListItemText primary="Home" />
     </ListItemButton>
-    <ListItemButton>
+    <ListItemButton component={Link} to="/login">
       <ListItemIcon>
-        <ShoppingCartIcon />
+        <LockOpenIcon />
       </ListItemIcon>
       <ListItemText primary="Login/SignUp" />
     </ListItemButton>
-    <ListItemButton>
+    <ListItemButton component={Link} to="/programs" onClick={() => handleClick('p')}>
       <ListItemIcon>
-        <PeopleIcon />
+        <SubscriptionsIcon />
       </ListItemIcon>
-      <ListItemText primary="Programs" />
+      <ListItemText primary="Programs"/>
+      {openProg ? <ExpandLess /> : <ExpandMore />}
     </ListItemButton>
-    <ListItemButton>
+    <Collapse in={openDis} timeout="auto" unmountOnExit>
+      <ListItemButton component={Link} to="/courses">
+        <ListItemIcon>
+          <ChatIcon />
+        </ListItemIcon>
+        <ListItemText primary="My Course" />
+      </ListItemButton>
+    </Collapse>
+    <ListItemButton component={Link} to="/files">
       <ListItemIcon>
-        <BarChartIcon />
+        <FolderIcon />
       </ListItemIcon>
       <ListItemText primary="Files" />
     </ListItemButton>
-    <ListItemButton>
+    <ListItemButton component={Link} to="/discussions" onClick={() => handleClick('d')}>
       <ListItemIcon>
-        <LayersIcon />
+        <ChatIcon />
       </ListItemIcon>
       <ListItemText primary="Discussion" />
+      {openDis ? <ExpandLess /> : <ExpandMore />}
     </ListItemButton> 
+    <Collapse in={openDis} timeout="auto" unmountOnExit>
+      <ListItemButton component={Link} to="/inbox">
+        <ListItemIcon>
+          <ChatIcon />
+        </ListItemIcon>
+        <ListItemText primary="Inbox" />
+      </ListItemButton>
+    </Collapse>
     </>)})}
   </React.Fragment>
 );
