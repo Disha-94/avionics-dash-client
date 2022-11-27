@@ -18,7 +18,7 @@ const Dashboard = () => {
           url='https://www.youtube.com/watch?v=zXbqvvqt-lM'
           width='90%'
           height='80%'
-          playing={true}
+          playing={false}
           loop={true}
         />
       </div>
@@ -30,11 +30,11 @@ const Dashboard = () => {
           You can have a look at our Programs for information on courses we offer and Discussion for community interaction. You can always write to us to know more.
         </p>
         <h3> Articles </h3>
-        <ul>
+        <ul className='articles'>
           {articles && articles.map((item, key) => {
             return (
               <li key={key}>
-                <a href={item.link} target="_blank">{item.title}</a>
+                <a href={item.link} target="_blank" rel="noreferrer">{item.title}</a>
               </li>
             )
           }
