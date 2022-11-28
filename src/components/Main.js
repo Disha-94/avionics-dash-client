@@ -18,7 +18,7 @@ import Badge from '@mui/material/Badge';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { mainListItems } from '../data/listItems';
+import MainListItems from '../data/listItems';
 import ScrollToTop from './ScrollToTop';
 
 
@@ -72,8 +72,16 @@ const mdTheme = createTheme();
 
 const Main = (props) => {
   const [open, setOpen] = React.useState(true);
+  const [openDis, setOpenDis] = React.useState(false);
+  const [openProg, setOpenProg] = React.useState(false);
   const toggleDrawer = () => {
     setOpen(!open);
+  };
+
+  const handleClick = (e, val) => {
+    console.log('val', val)
+    e.preventDefault();
+    val === 'd' ? setOpenDis(!openDis) : setOpenProg(!openProg);
   };
 
   return (
@@ -137,7 +145,10 @@ const Main = (props) => {
             </IconButton>
           <Divider />
           <List component="nav">
-            {mainListItems}
+            <MainListItems 
+            handleClick={handleClick}
+            openDis={openDis}
+            openProg={openProg} />
           </List>
         </Drawer>
         <Box

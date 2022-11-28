@@ -29,6 +29,10 @@ const routes = [
         path: '/discussions',
     },
     {
+        label: 'Inbox',
+        path: '/inbox',
+    },
+    {
         label: 'Files',
         path: '/files',
     },

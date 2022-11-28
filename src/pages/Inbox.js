@@ -3,7 +3,7 @@ import Main from '../components/Main';
 import {ChatEngine, getOrCreateChat} from 'react-chat-engine';
 import '../scss/pages/chat.scss';
 
-function Discussions() {
+function Inbox() {
      // The useState hook initially sets the username to an empty string
      const[username, setUsername] = React.useState('')
      //Custom function that will implement the getOrCreateChat function that to select username to chat with
@@ -54,4 +54,4 @@ function Discussions() {
     )
 }
 
-export default Discussions;
+export default Inbox;

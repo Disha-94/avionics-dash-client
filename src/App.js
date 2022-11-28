@@ -15,6 +15,7 @@ const Profile = lazy(() => import('./pages/Profile'));
 const Programs = lazy(() => import('./pages/Programs'));
 const Files = lazy(() => import('./pages/Files'));
 const Discussions = lazy(() => import('./pages/Discussions'));
+const Inbox = lazy(() => import('./pages/Inbox'));
 const Payments = lazy(() => import('./pages/Payment'));
 const Courses = lazy(() => import('./pages/Courses'));
 const NotFound = lazy(() => import('./pages/NotFound'));
@@ -30,6 +31,7 @@ const App = () => (
         <Route exact path="/programs" element={<Programs />} />
         <Route exact path="/files" element={<Files />} />
         <Route exact path="/discussions" element={<Discussions />} />
+        <Route exact path="/inbox" element={<Inbox />} />
         <Route exact path="/courses" element={<Courses />} />
         <Route exact path="/payments" element={<Payments />} />
         <Route element={<NotFound />} status={404} />
