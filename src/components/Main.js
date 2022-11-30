@@ -20,6 +20,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MainListItems from '../data/listItems';
 import ScrollToTop from './ScrollToTop';
+import Snackbar from '@mui/material/Snackbar';
 
 
 const drawerWidth = 240;
@@ -52,6 +53,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen,
       }),
+      backgroundColor: '#c4d2d5',
       boxSizing: 'border-box',
       ...(!open && {
         overflowX: 'hidden',
@@ -71,6 +73,20 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 const mdTheme = createTheme();
 
 const Main = (props) => {
+  const [state, setState] = React.useState({
+    openNot: false,
+    vertical: 'top',
+    horizontal: 'center',
+  });
+  const { vertical, horizontal, openNot } = state;
+
+  const handleNotClick = (newState) => () => {
+    setState({ openNot: true, ...newState });
+  };
+
+  const handleNotClose = () => {
+    setState({ ...state, openNot: false });
+  };
   const [open, setOpen] = React.useState(true);
   const [openDis, setOpenDis] = React.useState(false);
   const [openProg, setOpenProg] = React.useState(false);
@@ -125,9 +141,20 @@ const Main = (props) => {
             </Typography>
             <IconButton color="inherit">
               <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
+                <NotificationsIcon  onClick={handleNotClick({
+          vertical: 'top',
+          horizontal: 'right',
+        })}/>
               </Badge>
             </IconButton>
+            <Snackbar
+        anchorOrigin={{ vertical, horizontal }}
+        autoHideDuration={6000}
+        open={openNot}
+        onClose={handleNotClose}
+        message="You have 0 notifications"
+        key={vertical + horizontal}
+      />
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>

@@ -1,7 +1,7 @@
 import React from 'react';
 import Main from '../components/Main';
 
-function Courses() {
+const Courses = () => {
     return(
         <Main
         title="Courses"

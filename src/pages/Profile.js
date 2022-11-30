@@ -1,7 +1,7 @@
 import React from 'react';
 import Main from '../components/Main';
 
-function Profile() {
+const Profile = () => {
     return(
         <Main
         title="Profile"

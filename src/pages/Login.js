@@ -7,7 +7,7 @@ import VpnLockIcon from '@mui/icons-material/VpnLock';
 import "../scss/pages/login.scss"
 import { Link } from 'react-router-dom';
 
-const Login=()=>{
+const Login = () => {
 
     return(
         <Grid className='loginGrid'>

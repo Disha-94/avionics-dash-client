@@ -3,7 +3,7 @@ import Main from '../components/Main';
 import {ChatEngine, getOrCreateChat} from 'react-chat-engine';
 import '../scss/pages/chat.scss';
 
-function Discussions() {
+const Discussions = () => {
      // The useState hook initially sets the username to an empty string
      const[username, setUsername] = React.useState('')
      //Custom function that will implement the getOrCreateChat function that to select username to chat with
@@ -44,7 +44,7 @@ function Discussions() {
         >
             <ChatEngine
             height='100vh'
-            userName='buffayphoebe'
+            userName='gellerross'
             // Accessing the stored environment variables in .env file
             userSecret={process.env.REACT_APP_USER_SECRET}
             projectID={process.env.REACT_APP_PROJECT_ID}
