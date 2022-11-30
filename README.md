@@ -11,6 +11,9 @@ You can run it from any command line interface (CLI)
 **change branch to dev**
 -> git checkout dev
 
+**change directory to avionics-dash**
+-> cd avionics-dash-client
+
 **install dependencies**
 -> npm install
 
