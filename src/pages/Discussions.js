@@ -3,6 +3,12 @@ import Main from '../components/Main';
 import {ChatEngine, getOrCreateChat} from 'react-chat-engine';
 import '../scss/pages/chat.scss';
 
+const REACT_APP_PROJECT_ID = '1bc15ea3-148c-40ab-8889-c780f3aeb01f'
+//const REACT_APP_PROJECT_KEY = '1d8c0659-1282-4c3b-8a92-e6bd7e094d9d'
+const REACT_APP_USER_SECRET = 'enpm613'
+//const REACT_APP_CHAT_SECRET = 'enpm613'
+//const REACT_APP_CHAT_ID = '137220'
+
 const Discussions = () => {
      // The useState hook initially sets the username to an empty string
      const[username, setUsername] = React.useState('')
@@ -46,8 +52,8 @@ const Discussions = () => {
             height='100vh'
             userName='gellerross'
             // Accessing the stored environment variables in .env file
-            userSecret={process.env.REACT_APP_USER_SECRET}
-            projectID={process.env.REACT_APP_PROJECT_ID}
+            userSecret={REACT_APP_USER_SECRET}
+            projectID={REACT_APP_PROJECT_ID}
             displayNewChatInterface={(credentials) => displayChatInterface(credentials)}
             />
         </Main>
