@@ -23,7 +23,7 @@ const Dashboard = () => {
         />
       </div>
       <div>
-        <p>
+        <p style={{margin: "-6em 0 2em 0", fontFamily: "Georgia, 'Times New Roman', Times, serif", fontSize: "large"}}>
           Avionics Dash is a private pilot is a self-directed study course that offers online programs in a variety of aircrafts tailored to satisfy your requirements whether it’s recurrent and re-qualification training from the comfort of their home.
           Our instructors set the industry standard for professional airline-oriented flight
           training and share your passion to become the best pilot to ever fly.

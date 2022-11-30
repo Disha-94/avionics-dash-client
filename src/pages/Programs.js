@@ -37,7 +37,7 @@ const Programs = () => {
               </AccordionSummary>
               <AccordionDetails>
                 <p> Our online ground school will help you pass the FAA Private Pilot test with flying colors. Achieve your dreams of flying an airplane.</p>
-                <div style={{ width: '40%', float: "left" }}>
+                <div className='topleft'>
                   <ul className='points'>
                     <li>
                       Save thousands with our online ground school - in-person instruction costs up to $70/hr
@@ -59,7 +59,7 @@ const Programs = () => {
                     Enroll Now
                   </Button>
                 </div>
-                <div style={{ width: '60%', float: "right" }}>
+                <div className='topright'>
                   <iframe width="100%" height="345" src='https://www.youtube.com/embed/nb74_jkr8u0' title='intro'> </iframe>
                 </div>
 
