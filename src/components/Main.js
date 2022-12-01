@@ -88,16 +88,15 @@ const Main = (props) => {
     setState({ ...state, openNot: false });
   };
   const [open, setOpen] = React.useState(true);
-  const [openDis, setOpenDis] = React.useState(false);
+  const [openProf, setOpenProf] = React.useState(false);
   const [openProg, setOpenProg] = React.useState(false);
   const toggleDrawer = () => {
     setOpen(!open);
   };
 
   const handleClick = (e, val) => {
-    console.log('val', val)
     e.preventDefault();
-    val === 'd' ? setOpenDis(!openDis) : setOpenProg(!openProg);
+    val === 'd' ? setOpenProf(!openProf) : setOpenProg(!openProg);
   };
 
   return (
@@ -174,7 +173,7 @@ const Main = (props) => {
           <List component="nav">
             <MainListItems 
             handleClick={handleClick}
-            openDis={openDis}
+            openProf={openProf}
             openProg={openProg} />
           </List>
         </Drawer>

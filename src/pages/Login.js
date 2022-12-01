@@ -24,7 +24,7 @@ const Login = () => {
                     <VpnLockIcon className='loginIcon'/>
                     <TextField className='txtfld' label='Password' placeholder='Enter password' type='password' fullWidth required/>
                 </Box>
-                <Button component={Link} to="/" type='submit' color='primary' variant="contained" className='btnstyle' fullWidth>
+                <Button component={Link} to="/programs" type='submit' color='primary' variant="contained" className='btnstyle' fullWidth>
                     Conitnue
                 </Button>
                 <Typography className='loginTypo' >

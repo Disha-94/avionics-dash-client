@@ -11,6 +11,7 @@ import SubscriptionsIcon from '@mui/icons-material/Subscriptions';
 import FolderIcon from '@mui/icons-material/Folder';
 import CampaignIcon from '@mui/icons-material/Campaign';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import routes from './routes';
 import { Link } from 'react-router-dom';
 
@@ -31,7 +32,18 @@ const MainListItems = (props) => {
                 <LockOpenIcon />
               </ListItemIcon>
               <ListItemText primary="Login/SignUp" />
+              <div className="font-icon-wrapper" onClick={(e) => props.handleClick(e, 'd')}>
+                {props.openProf ? <ExpandLess /> : <ExpandMore />}
+              </div>
             </ListItemButton>
+            <Collapse in={props.openProf} timeout="auto" unmountOnExit>
+              <ListItemButton component={Link} to="/profile" key={7}>
+                <ListItemIcon>
+                  <AccountCircleIcon />
+                </ListItemIcon>
+                <ListItemText primary="My Profile" />
+              </ListItemButton>
+            </Collapse>
             <ListItemButton component={Link} to="/programs" key={3}>
               <ListItemIcon>
                 <SubscriptionsIcon />

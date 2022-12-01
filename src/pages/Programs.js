@@ -34,6 +34,9 @@ const Programs = () => {
                 className='title'
               >
                 <h2>Piloting Made Easy</h2>
+                <Button variant="contained" size="large" component={Link} to="/courses" style={{margin: '1% 0 0 60%'}}>
+                    My Courses
+                  </Button>
               </AccordionSummary>
               <AccordionDetails>
                 <p> Our online ground school will help you pass the FAA Private Pilot test with flying colors. Achieve your dreams of flying an airplane.</p>
