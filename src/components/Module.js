@@ -21,7 +21,6 @@ const Module = (props) => {
       <h1>{props.name}</h1>
       <div style={styles.playerwrapper}>
         <ReactPlayer
-          className='react-player'
           url={props.url}
           playing={false}
           loop={false}

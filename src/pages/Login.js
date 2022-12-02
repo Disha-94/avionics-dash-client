@@ -109,12 +109,12 @@ const Login = (props) => {
                 <Button onClick={handleLogin}type='submit' color='primary' variant="contained" className='btnstyle' fullWidth>
                     Conitnue
                 </Button>
-                <Typography component={'span'} className='loginTypo' >
+                <Typography component={'div'} className='loginTypo' >
                      <Link onClick={() => setOpen(true)}>
                         Forgot password ? 
                 </Link>
                 </Typography>
-                <Typography component={'span'} className='loginTypo'> {`New User ? `}
+                <Typography component={'div'} className='loginTypo'> {`New User ? `}
                      <Link to="/signup" >
                         Sign Up 
                 </Link>

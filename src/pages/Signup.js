@@ -5,7 +5,7 @@ import { Grid, Paper, Avatar, TextField, Button } from '@material-ui/core'
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
-import MenuItem from '@mui/material/MenuItem';
+//import MenuItem from '@mui/material/MenuItem';
 import PersonAddAltRoundedIcon from '@mui/icons-material/PersonAddAltRounded';
 import PersonIcon from '@mui/icons-material/Person';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
@@ -17,7 +17,8 @@ import WcIcon from '@mui/icons-material/Wc';
 import "../scss/pages/signup.scss"
 import { Link } from 'react-router-dom';
 import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
+//import Select from '@mui/material/Select';
+import NativeSelect from '@mui/material/NativeSelect';
 
 const styles = {
     gridContainer: {
@@ -36,7 +37,7 @@ const Signup = (props) => {
         pwd: '',
         confPwd: '',
         dob: '',
-        gend: '',
+        gend: 'NA',
         addr: '',
         phone: ''
     });
@@ -235,19 +236,32 @@ const Signup = (props) => {
                             name='dob'
                             value={user.dob}
                             onChange={handleTextChange}
-                            fullWidth required />
+                             required />
                         <WcIcon className='signIcon' />
-                        <Select
-                            placeholder='Enter Gender'
+                        {/*<Select
                             defaultValue={user.gend}
+                            className='signTxtfld'
+                            placeholder='Enter Gender'
                             label="Gender"
                             onChange={e => handleSelectChange(e.target)}
                         >
-                            <MenuItem key={0} value={''}>Select Gender</MenuItem>
-                            <MenuItem key={1} value={'F'}>Female</MenuItem>
-                            <MenuItem key={2} value={'M'}>Male</MenuItem>
-                            <MenuItem key={3} value={'O'}>Other</MenuItem>
-                        </Select>
+                            <MenuItem value={'NA'}>Select Gender</MenuItem>
+                            <MenuItem value={'F'}>Female</MenuItem>
+                            <MenuItem value={'M'}>Male</MenuItem>
+                            <MenuItem value={'O'}>Other</MenuItem>
+    </Select>*/}
+    <NativeSelect
+          defaultValue={user.gend}
+          className='signTxtfld'
+          placeholder='Enter Gender'
+          label="Gender"
+          onChange={e => handleSelectChange(e.target)}
+        >
+          <option value={'NA'}>Select</option>
+          <option value={'F'}>Female</option>
+          <option value={'M'}>Male</option>
+          <option value={'O'}>Other</option>
+        </NativeSelect>
                     </Box>
                     <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
                         <HomeIcon className='signIcon' />

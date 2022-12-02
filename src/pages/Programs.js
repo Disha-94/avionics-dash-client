@@ -2,7 +2,7 @@ import React from 'react';
 import Main from '../components/Main';
 import { useNavigate } from "react-router-dom";
 import { Link } from 'react-router-dom';
-import { Grid, Accordion, AccordionSummary, AccordionDetails, Box, Grow } from '@mui/material';
+import { Grid, Accordion, AccordionSummary, AccordionDetails, Box } from '@mui/material';
 import { Stack, Card, CardContent, CardHeader, IconButton, Button } from '@mui/material';
 import VerifiedIcon from '@mui/icons-material/Verified';
 import ViewDayIcon from '@mui/icons-material/ViewDay';
@@ -27,11 +27,11 @@ const Programs = (props) => {
     >
 
       <Box sx={{ height: 180, display: 'flex' }}>
-        <Grow
+       {/* <Grow
           in={true}
           style={{ transformOrigin: '0 0 0' }}
           timeout={5000}
-        >
+  >*/}
           <Grid container direction='row' rowSpacing={2}>
             <Accordion expanded={true} style={{ width: '260vh' }}>
               <AccordionSummary
@@ -226,7 +226,6 @@ const Programs = (props) => {
               </AccordionDetails>
             </Accordion>
           </Grid>
-        </Grow>
       </Box>
     </Main>
   )
