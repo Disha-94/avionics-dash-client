@@ -1,4 +1,5 @@
 import * as React from 'react';
+import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
@@ -16,11 +17,12 @@ import routes from './routes';
 import { Link } from 'react-router-dom';
 
 const MainListItems = (props) => {
+  const {userType} = props;
   return (
     <React.Fragment>
       {routes.filter((l) => l.index).map((l) => {
         return (
-          <>
+          <List key={l.label}>
             <ListItemButton component={Link} to="/" key={1}>
               <ListItemIcon>
                 <HomeIcon />
@@ -33,34 +35,34 @@ const MainListItems = (props) => {
               </ListItemIcon>
               <ListItemText primary="Login/SignUp" />
               <div className="font-icon-wrapper" onClick={(e) => props.handleClick(e, 'd')}>
-                {props.openProf ? <ExpandLess /> : <ExpandMore />}
+                {userType !== 'v' ? props.openProf ? <ExpandLess /> : <ExpandMore /> : ''}
               </div>
             </ListItemButton>
-            <Collapse in={props.openProf} timeout="auto" unmountOnExit>
+            {userType !== 'v' && <Collapse in={props.openProf} timeout="auto" unmountOnExit>
               <ListItemButton component={Link} to="/profile" key={7}>
                 <ListItemIcon>
                   <AccountCircleIcon />
                 </ListItemIcon>
                 <ListItemText primary="My Profile" />
               </ListItemButton>
-            </Collapse>
+            </Collapse>}
             <ListItemButton component={Link} to="/programs" key={3}>
               <ListItemIcon>
                 <SubscriptionsIcon />
               </ListItemIcon>
               <ListItemText primary="Programs" />
               <div className="font-icon-wrapper" onClick={(e) => props.handleClick(e, 'p')}>
-                {props.openProg ? <ExpandLess /> : <ExpandMore />}
+               {userType !== 'v' ?props.openProg ? <ExpandLess /> : <ExpandMore />: ''}
               </div>
             </ListItemButton>
-            <Collapse in={props.openProg} timeout="auto" unmountOnExit>
-              <ListItemButton component={Link} to="/courses" key={4}>
+            {userType !== 'v' &&<Collapse in={props.openProg} timeout="auto" unmountOnExit>
+              <ListItemButton component={Link} to={userType === 's' ? "/courseStudent" : "/courseInstructor"}  key={4}>
                 <ListItemIcon>
                   <ViewModuleIcon />
                 </ListItemIcon>
                 <ListItemText primary="My Course" />
               </ListItemButton>
-            </Collapse>
+            </Collapse>}
             <ListItemButton component={Link} to="/files" key={5}>
               <ListItemIcon>
                 <FolderIcon />
@@ -74,7 +76,7 @@ const MainListItems = (props) => {
               <ListItemText primary="Discussion" />
             </ListItemButton>
           
-          </>)
+            </List>)
       })}
     </React.Fragment>
   );

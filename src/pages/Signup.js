@@ -19,7 +19,14 @@ import { Link } from 'react-router-dom';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-const Signup = () => {
+const styles = {
+    gridContainer: {
+        backgroundImage: `url(${'/background2.jpeg'})`
+    }
+};
+
+const Signup = (props) => {
+    const {handleUser} = props;
     const navigate = useNavigate();
 
     const [user, setUser] = React.useState({
@@ -32,7 +39,7 @@ const Signup = () => {
         gend: '',
         addr: '',
         phone: ''
-    })
+    });
     const [error, setError] = React.useState({
         password: '',
         email: '',
@@ -72,7 +79,8 @@ const Signup = () => {
         validateInput('phone', user.phone);
         if (!alert.set) {
             console.log('alert', alert);
-            navigate("/");
+            handleUser('s', user);
+            navigate("/profile");
         }
     }
 
@@ -148,7 +156,7 @@ const Signup = () => {
     }
 
     return (
-        <Grid className='signGrid'>
+        <Grid className='signGrid' style={styles.gridContainer}>
             <Paper elevation={10} className='signPaper'>
                 <Stack sx={{ width: '100%' }} spacing={2}>
                     {alert.password && <Alert onClose={e => handleAlertClose(e, 'password')} severity="error">{error.password}</Alert>}

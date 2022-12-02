@@ -33,8 +33,16 @@ const routes = [
         path: '/files',
     },
     {
-        label: 'Courses',
-        path: '/courses',
+        label: 'CourseStudent',
+        path: '/courseStudent',
+    },
+    {
+        label: 'CourseInstructor',
+        path: '/courseInstructor',
+    },
+    {
+        label: 'CourseSelect',
+        path: '/selectCourse',
     },
     {
         label: 'Payments',

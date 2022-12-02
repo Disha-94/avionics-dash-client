@@ -47,7 +47,7 @@ const Success = () => {
           color="success"
           gutterBottom
         >
-          <b> Order Confirmed </b>
+          <b> Course Purchase Complete </b>
         </Typography>
       </CardContent>
     </Card>

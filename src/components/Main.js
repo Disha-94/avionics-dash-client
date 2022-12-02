@@ -172,6 +172,7 @@ const Main = (props) => {
           <Divider />
           <List component="nav">
             <MainListItems 
+            userType = {props.userType}
             handleClick={handleClick}
             openProf={openProf}
             openProg={openProg} />

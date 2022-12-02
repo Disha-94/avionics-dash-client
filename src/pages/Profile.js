@@ -5,38 +5,39 @@ import EditIcon from '@mui/icons-material/Edit';
 import { Typography, Button, FormControl, InputLabel, OutlinedInput } from '@mui/material/';
 import '../scss/pages/profile.scss'
 
-const Profile = () => {
+const Profile = (props) => {
     const [user, setUser] = React.useState({
-        fname: 'Ross',
-        lname: 'Geller',
-        email: 'gellerross@avionics.edu',
-        dob: '10/05/1999',
-        gend: 'Male',
+        fname: props.user.fname || 'Ross',
+        lname: props.user.lname || 'Geller',
+        email: props.user.email || 'gellerross@avionics.edu',
+        dob: props.user.dob || '12/12/1994',
+        gend: props.user.gend || 'Male',
         edu: 'Masters in Engineering',
-        phone: '909-789-9876',
+        phone: props.user.phone || '123-456-789',
         facts: "Some fun facts about me...."
     });
 
-    const [disabled, setDisabled] = React.useState(true); 
+    const [disabled, setDisabled] = React.useState(true);
 
     const handleChange = (event) => {
-        const {name, value} = event.target;
+        const { name, value } = event.target;
         let temp = {};
-        if (name === 'name'){
-            const fullname= value.split(' ');
+        if (name === 'name') {
+            const fullname = value.split(' ');
             temp = Object.assign({}, user, { 'fname': fullname[0], 'lname': fullname[1] });
         }
         else {
             temp = Object.assign({}, user, { [name]: value });
         }
         setUser(temp);
-        
+
     }
-    
+
     return (
         <Main
             title="Profile"
             description="User profile page"
+            userType={props.userType}
         >
             <Grid container direction='row'>
                 <Grid item xs={4}>
@@ -185,9 +186,9 @@ const Profile = () => {
                                 />
                             </FormControl>
                             {!disabled && (
-                                <div style={{alignItems:'center'}}>
-                                <Button variant='contained' onClick={() => setDisabled(true)}>Save</Button>
-                                <Button onClick={() => setDisabled(true)}>Cancel</Button>
+                                <div style={{ alignItems: 'center' }}>
+                                    <Button variant='contained' onClick={() => setDisabled(true)}>Save</Button>
+                                    <Button onClick={() => setDisabled(true)}>Cancel</Button>
                                 </div>
                             )}
                         </CardContent>

@@ -1,5 +1,6 @@
 import React from 'react';
 import Main from '../components/Main';
+import { useNavigate } from "react-router-dom";
 import { Link } from 'react-router-dom';
 import { Grid, Accordion, AccordionSummary, AccordionDetails, Box, Grow } from '@mui/material';
 import { Stack, Card, CardContent, CardHeader, IconButton, Button } from '@mui/material';
@@ -12,12 +13,17 @@ import ModeStandbyIcon from '@mui/icons-material/ModeStandby';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import "../scss/pages/program.scss"
 
-const Programs = () => {
-
+const Programs = (props) => {
+  const navigate = useNavigate();
+  const { userType, userReg } = props;
+  const handleEnrol = () => {
+    userType === 'v' ? navigate('/signup') : navigate('/selectCourse')
+  }
   return (
     <Main
       title="Programs"
       description="This page provides overview of the programs offered by the website"
+      userType={props.userType}
     >
 
       <Box sx={{ height: 180, display: 'flex' }}>
@@ -34,9 +40,15 @@ const Programs = () => {
                 className='title'
               >
                 <h2>Piloting Made Easy</h2>
-                <Button variant="contained" size="large" component={Link} to="/courses" style={{margin: '1% 0 0 60%'}}>
+                {(userType !== 'v' && userReg) &&
+                  <Button
+                    variant="contained"
+                    size="large"
+                    component={Link} to={userType === 's' ? "/courseStudent" : "/courseInstructor"}
+                    style={{ margin: '1% 0 0 60%' }}
+                  >
                     My Courses
-                  </Button>
+                  </Button>}
               </AccordionSummary>
               <AccordionDetails>
                 <p> Our online ground school will help you pass the FAA Private Pilot test with flying colors. Achieve your dreams of flying an airplane.</p>
@@ -58,7 +70,7 @@ const Programs = () => {
                       You're guaranteed to pass the test or you'll get $175 and a full refund. 99.8% of our students pass.
                     </li>
                   </ul>
-                  <Button variant="contained" size="large" endIcon={<ArrowCircleRightIcon />} component={Link} to="/payments">
+                  <Button variant="contained" size="large" endIcon={<ArrowCircleRightIcon />} onClick={handleEnrol}>
                     Enroll Now
                   </Button>
                 </div>
@@ -66,10 +78,10 @@ const Programs = () => {
                   <iframe width="100%" height="345" src='https://www.youtube.com/embed/nb74_jkr8u0' title='intro'> </iframe>
                 </div>
 
-                </AccordionDetails>
+              </AccordionDetails>
             </Accordion>
             <br />
-                <Accordion expanded={true} style={{ width: '260vh' }}>
+            <Accordion expanded={true} style={{ width: '260vh' }}>
               <AccordionSummary
                 aria-controls="panel1a-content"
                 id="panel1a-header"
@@ -87,10 +99,10 @@ const Programs = () => {
                   </p>
                   <p>
                     I have been an aviation professional since the early 2000s. I currently hold the following FAA certificates: Certified Flight Instructor (Instrument), Commercial Pilot (for single and multi engine), and UAS Remote Pilot.
-                      I have worked for two of the biggest aeronautical universities in the country (managing flight training programs of up to 500 students and 50 aircraft) and in teaching roles as an adjunct professor. I was also the President of a Part 141 Flight School with 25 employees, 14 aircraft, and 100 students.
-                    </p><p>I am passionate about making aviation more accessible and easier to learn. I now concentrate on educating the next generation of manned and unmanned pilots.
+                    I have worked for two of the biggest aeronautical universities in the country (managing flight training programs of up to 500 students and 50 aircraft) and in teaching roles as an adjunct professor. I was also the President of a Part 141 Flight School with 25 employees, 14 aircraft, and 100 students.
+                  </p><p>I am passionate about making aviation more accessible and easier to learn. I now concentrate on educating the next generation of manned and unmanned pilots.
                     I hold a Bachelor's degree in Aeronautical Science and a Masters Degree in Aviation Human Factors, both from the Florida Institute of Technology in Melbourne, FL.
-                   </p><p> When I am not teaching, you can find me running in the beautiful mountains surrounding Prescott, AZ.
+                  </p><p> When I am not teaching, you can find me running in the beautiful mountains surrounding Prescott, AZ.
                   </p>
                 </div>
               </AccordionDetails>

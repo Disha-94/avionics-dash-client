@@ -5,7 +5,7 @@ import Main from '../components/Main';
 import files from '../data/filesLink'
 import "../scss/pages/files.scss"
 
-const Files = () => {
+const Files = (props) => {
     const [expanded, setExpanded] = React.useState('panel1');
 
   const handleChange = (panel) => (event, isExpanded) => {
@@ -15,6 +15,7 @@ const Files = () => {
         <Main
             title="Files"
             description="This page displays list of files related to your courses"
+            userType={props.userType}
         >
              <Grid container direction='column' rowSpacing={2}>
              <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
