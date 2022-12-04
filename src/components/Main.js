@@ -2,6 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
+import { useNavigate } from "react-router-dom";
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
@@ -18,10 +19,16 @@ import Badge from '@mui/material/Badge';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import LockTwoToneIcon from '@mui/icons-material/LockTwoTone';
 import MainListItems from '../data/listItems';
 import ScrollToTop from './ScrollToTop';
 import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import Tooltip from '@mui/material/Tooltip';
 
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const drawerWidth = 240;
 
@@ -73,12 +80,21 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 const mdTheme = createTheme();
 
 const Main = (props) => {
+  const navigate = useNavigate();
   const [state, setState] = React.useState({
     openNot: false,
     vertical: 'top',
     horizontal: 'center',
   });
   const { vertical, horizontal, openNot } = state;
+  const [logout, setLogout] = React.useState(false);
+
+React.useEffect(() => {
+  if(logout) {
+    props.setUserType('v');
+    navigate('/');
+  }
+},[logout]);
 
   const handleNotClick = (newState) => () => {
     setState({ openNot: true, ...newState });
@@ -98,6 +114,7 @@ const Main = (props) => {
     e.preventDefault();
     val === 'd' ? setOpenProf(!openProf) : setOpenProg(!openProg);
   };
+
 
   return (
     <HelmetProvider>
@@ -146,6 +163,14 @@ const Main = (props) => {
         })}/>
               </Badge>
             </IconButton>
+           {props.userType !== 'v' &&  <Tooltip title="Click to Logout"><IconButton color="inherit" onClick={() => setLogout(true)}>
+                <LockTwoToneIcon />
+              </IconButton></Tooltip>}
+              <Snackbar open={logout} autoHideDuration={6000} onClose={() => setLogout(false)}>
+        <Alert onClose={() => setLogout(false)} severity="success" sx={{ width: '100%' }}>
+          You have successfully logged out!
+        </Alert>
+      </Snackbar>
             <Snackbar
         anchorOrigin={{ vertical, horizontal }}
         autoHideDuration={6000}

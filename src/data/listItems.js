@@ -29,23 +29,19 @@ const MainListItems = (props) => {
               </ListItemIcon>
               <ListItemText primary="Home" />
             </ListItemButton>
-            <ListItemButton component={Link} to="/login" key={2}>
+            {userType === 'v' && <ListItemButton component={Link} to="/login" key={2}>
               <ListItemIcon>
                 <LockOpenIcon />
               </ListItemIcon>
               <ListItemText primary="Login/SignUp" />
-              <div className="font-icon-wrapper" onClick={(e) => props.handleClick(e, 'd')}>
-                {userType !== 'v' ? props.openProf ? <ExpandLess /> : <ExpandMore /> : ''}
-              </div>
-            </ListItemButton>
-            {userType !== 'v' && <Collapse in={props.openProf} timeout="auto" unmountOnExit>
+            </ListItemButton>}
+            {userType !== 'v' && 
               <ListItemButton component={Link} to="/profile" key={7}>
                 <ListItemIcon>
                   <AccountCircleIcon />
                 </ListItemIcon>
                 <ListItemText primary="My Profile" />
-              </ListItemButton>
-            </Collapse>}
+              </ListItemButton>}
             <ListItemButton component={Link} to="/programs" key={3}>
               <ListItemIcon>
                 <SubscriptionsIcon />

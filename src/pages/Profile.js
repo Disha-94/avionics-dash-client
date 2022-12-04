@@ -7,14 +7,20 @@ import '../scss/pages/profile.scss'
 
 const Profile = (props) => {
     const [user, setUser] = React.useState({
+        uid: props.uid || 0,
         fname: props.user.fname || 'Ross',
         lname: props.user.lname || 'Geller',
         email: props.user.email || 'gellerross@avionics.edu',
+        pwd: props.user.pwd,
+        confPwd: props.user.confPwd,
         dob: props.user.dob || '12/12/1994',
         gend: props.user.gend || 'Male',
-        edu: 'Masters in Engineering',
+        addr: props.user.addr,
+        edu: props.user.edu || 'Masters in Engineering',
         phone: props.user.phone || '123-456-789',
-        facts: "Some fun facts about me...."
+        facts: props.user.facts || "Some fun facts about me....",
+        userType: props.user.userType,
+        cid: props.user.cid
     });
 
     const [disabled, setDisabled] = React.useState(true);
@@ -33,11 +39,18 @@ const Profile = (props) => {
 
     }
 
+    const handleSave = (e) => {
+        e.preventDefault();
+        props.handleUser(user.userType, user);
+        setDisabled(true);
+    }
+
     return (
         <Main
             title="Profile"
             description="User profile page"
             userType={props.userType}
+            setUserType={props.setUserType}
         >
             <Grid container direction='row'>
                 <Grid item xs={4}>
@@ -70,7 +83,7 @@ const Profile = (props) => {
                                     value={user.fname.concat(' ', user.lname)}
                                     label="Full Name"
                                     name='name'
-                                    onChange={handleChange}
+                                    onChange={(e) => handleChange(e)}
                                     disabled={disabled}
                                     sx={{
                                         "& .MuiInputBase-input.Mui-disabled": {
@@ -78,6 +91,7 @@ const Profile = (props) => {
                                             padding: "25px"
                                         },
                                     }}
+                                    fullWidth
                                 />
                             </FormControl>
                             <FormControl fullWidth sx={{ m: 1 }}>
@@ -87,7 +101,7 @@ const Profile = (props) => {
                                     value={user.email}
                                     label="Email"
                                     name='email'
-                                    onChange={handleChange}
+                                    onChange={(e) => handleChange(e)}
                                     disabled={disabled}
                                     sx={{
                                         "& .MuiInputBase-input.Mui-disabled": {
@@ -95,6 +109,7 @@ const Profile = (props) => {
                                             padding: "25px"
                                         },
                                     }}
+                                    fullWidth
                                 />
                             </FormControl>
                             <FormControl fullWidth sx={{ m: 1 }}>
@@ -104,7 +119,7 @@ const Profile = (props) => {
                                     value={user.dob}
                                     label="DOB"
                                     name='dob'
-                                    onChange={handleChange}
+                                    onChange={(e) => handleChange(e)}
                                     disabled={disabled}
                                     sx={{
                                         "& .MuiInputBase-input.Mui-disabled": {
@@ -112,6 +127,7 @@ const Profile = (props) => {
                                             padding: "25px"
                                         },
                                     }}
+                                    fullWidth
                                 />
                             </FormControl>
                             <FormControl fullWidth sx={{ m: 1 }}>
@@ -121,7 +137,7 @@ const Profile = (props) => {
                                     value={user.gend}
                                     label="Gender"
                                     name='gend'
-                                    onChange={handleChange}
+                                    onChange={(e) => handleChange(e)}
                                     disabled={disabled}
                                     sx={{
                                         "& .MuiInputBase-input.Mui-disabled": {
@@ -129,6 +145,7 @@ const Profile = (props) => {
                                             padding: "25px"
                                         },
                                     }}
+                                    fullWidth
                                 />
                             </FormControl>
                             <FormControl fullWidth sx={{ m: 1 }} >
@@ -138,7 +155,7 @@ const Profile = (props) => {
                                     value={user.edu}
                                     label="Education"
                                     name='edu'
-                                    onChange={handleChange}
+                                    onChange={(e) => handleChange(e)}
                                     disabled={disabled}
                                     sx={{
                                         "& .MuiInputBase-input.Mui-disabled": {
@@ -146,6 +163,7 @@ const Profile = (props) => {
                                             padding: "25px"
                                         },
                                     }}
+                                    fullWidth
                                 />
                             </FormControl>
                             <FormControl fullWidth sx={{ m: 1 }}>
@@ -155,7 +173,7 @@ const Profile = (props) => {
                                     value={user.phone}
                                     label="Phone"
                                     name='phone'
-                                    onChange={handleChange}
+                                    onChange={(e) => handleChange(e)}
                                     disabled={disabled}
                                     sx={{
                                         "& .MuiInputBase-input.Mui-disabled": {
@@ -163,6 +181,7 @@ const Profile = (props) => {
                                             padding: "25px"
                                         },
                                     }}
+                                    fullWidth
                                 />
                             </FormControl>
                             <FormControl fullWidth sx={{ m: 1 }}>
@@ -170,11 +189,10 @@ const Profile = (props) => {
                                 <OutlinedInput
                                     id="outlined-multiline-static"
                                     label="About Myself"
-                                    maxRows={4}
                                     name='facts'
-                                    onChange={handleChange}
+                                    onChange={(e) => handleChange(e)}
                                     multiline={true}
-                                    defaultValue="Default Value"
+                                    rows={4}
                                     value={user.facts}
                                     disabled={disabled}
                                     sx={{
@@ -183,11 +201,12 @@ const Profile = (props) => {
                                             padding: "25px"
                                         },
                                     }}
+                                    fullWidth
                                 />
                             </FormControl>
                             {!disabled && (
                                 <div style={{ alignItems: 'center' }}>
-                                    <Button variant='contained' onClick={() => setDisabled(true)}>Save</Button>
+                                    <Button variant='contained' onClick={(e) => handleSave(e)}>Save</Button>
                                     <Button onClick={() => setDisabled(true)}>Cancel</Button>
                                 </div>
                             )}

@@ -13,27 +13,19 @@ const styles = {
     gridContainer: {
         backgroundImage: `url(${'/background1.jpeg'})`
     },
-    dialogtitle: {
-        fontWeight: '700'
+    dialogTitle: {
+        fontWeight: '700',
+        backgroundColor: '#1976d2',
+        color: 'white'
     },
     dialogExp: {
-        color: "black"
+        color: "black",
+        marginTop: "10px"
     }
 };
 
 const Login = (props) => {
     const navigate = useNavigate();
-    const [user] = React.useState({
-        fname: 'Rachel',
-        lname: 'Green',
-        email: 'greenrachel@avionics.edu',
-        pwd: 'enpm613',
-        confPwd: 'enpm613',
-        dob: '11/08/1996',
-        gend: 'Female',
-        addr: '1234 Campus Drive',
-        phone: '123456789'
-    }); 
     const [login, setLogin] = React.useState({
         email: '',
         pwd: ''
@@ -56,18 +48,21 @@ const Login = (props) => {
     }
 
     const handleLogin = () => {
-        if(login.email === user.email && login.pwd === user.pwd){
-            props.handleUser('s', user);
-            props.setUserReg(true);
-            navigate("/programs");
-        } //else is pendign
+        props.userList.forEach(user => {
+            if(login.email === user.email && login.pwd === user.pwd){
+                props.handleUser(user['userType'], user);
+                navigate("/programs");
+            } //else is pendign
+        })
     }
 
     const handleDone = () => {
+        props.userList.forEach(user => {
         if(forgot.email === user.email && forgot.phone === user.phone){
         setOpen(false);
         navigate("/");
         } //else is pending
+    });
       };
     
     const handleCancel = () => {
@@ -88,6 +83,7 @@ const Login = (props) => {
                 <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
                     <EmailIcon className='loginIcon'/>
                     <TextField 
+                        error={false}
                         className='txtfld' 
                         label='Email' 
                         placeholder='Enter Email' 
@@ -98,6 +94,7 @@ const Login = (props) => {
                 <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
                     <VpnLockIcon className='loginIcon'/>
                     <TextField 
+                        error={false}
                         className='txtfld' 
                         label='Password' 
                         placeholder='Enter Password' 
@@ -147,7 +144,7 @@ const Login = (props) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCancel}>Cancel</Button>
-          <Button variant='contained' onClick={handleDone}>Done</Button>
+          <Button variant='primary' onClick={handleDone}>Done</Button>
         </DialogActions>
       </Dialog>
         </Grid>

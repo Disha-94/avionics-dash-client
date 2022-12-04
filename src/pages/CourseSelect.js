@@ -3,10 +3,10 @@ import { useNavigate } from "react-router-dom";
 import Main from '../components/Main';
 import { Grid, ImageList, ImageListItem, ImageListItemBar, ListSubheader, IconButton } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
-import courseList from '../data/courseList';
 import "../scss/pages/courseSelect.scss"
 
 const CourseSelect = (props) => {
+  const {courseList} = props;
   const navigate = useNavigate();
 
   const handleSelect = (id) => {
@@ -17,6 +17,7 @@ const CourseSelect = (props) => {
       title="Courses"
       description="This page displays list of courses you have registered for"
       userType={props.userType}
+      setUserType={props.setUserType}
     >
       <Grid container direction="column">
         <ImageList sx={{ width: '95%' }}>

@@ -40,16 +40,23 @@ const a11yProps = (index) => {
 }
 
 const Course = (props) => {
-    const { myCourse } = props || '';
+    const {setAssign, setCourse, userType } = props;
+    const [myCourse, setMyCourse] = React.useState([]);
     const [value, setValue] = React.useState(0);
     const [mod, setMod] = React.useState({});
     const [expanded, setExpanded] = React.useState(false);
+
+    React.useEffect(() => {
+        setMyCourse([ ...props.myCourse]);
+    },[props.myCourse])
 
     const handleAccordian = (course) => (event, isExpanded) => {
         if (isExpanded) {
             setExpanded(course['id']);
             setMod(course['modules'][0]);
-            setValue(0);
+            setAssign(course['assignments']);
+            //setValue(0);
+            userType === 'i' && setCourse(course);
         } else {
             setExpanded(false);
             setMod({});
@@ -68,7 +75,7 @@ const Course = (props) => {
 
     return (
         <Grid container direction='column'>
-            {myCourse.map(item =>
+            {myCourse && myCourse.map(item =>
                 <div key={item.id}>
                     <Accordion expanded={expanded === item.id} sx={{ marginRight: '10px' }} onChange={handleAccordian(item)}>
                         <AccordionSummary

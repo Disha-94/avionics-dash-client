@@ -11,6 +11,7 @@ const Dashboard = (props) => {
       description={'Avionics Dash Website, ENPM613 Project, Home Page '
         + 'ABC, and .'}
       userType={props.userType}
+      setUserType={props.setUserType}
     >
       <h1> Welcome to Avionics Dash</h1>
       <div className="player-wrapper">

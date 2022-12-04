@@ -19,6 +19,9 @@ import { Link } from 'react-router-dom';
 import FormControl from '@mui/material/FormControl';
 //import Select from '@mui/material/Select';
 import NativeSelect from '@mui/material/NativeSelect';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 const styles = {
     gridContainer: {
@@ -27,7 +30,7 @@ const styles = {
 };
 
 const Signup = (props) => {
-    const {handleUser} = props;
+    const {handleUser, setUserList} = props;
     const navigate = useNavigate();
 
     const [user, setUser] = React.useState({
@@ -39,7 +42,13 @@ const Signup = (props) => {
         dob: '',
         gend: 'NA',
         addr: '',
-        phone: ''
+        phone: '',
+        uid: props.userLength + 1,
+        userType: 's',
+        cid: [],
+        edu: 'Masters in Engineering',
+        facts: "Some fun facts about me...."
+
     });
     const [error, setError] = React.useState({
         password: '',
@@ -61,11 +70,11 @@ const Signup = (props) => {
         setUser(temp);
     }
 
-    const handleSelectChange = (val) => {
+    const handleSelectChange = (event) => {
         let newVal;
-        if (val === 'F')
+        if (event.target.value === 'F')
             newVal = 'Female';
-        else if (val === 'M')
+        else if (event.target.value === 'M')
             newVal = 'Male';
         else newVal = 'Other';
         const temp = Object.assign({}, user, { gend: newVal });
@@ -74,12 +83,13 @@ const Signup = (props) => {
 
     const handleSave = (e) => {
         e.preventDefault();
+
         validateInput('confPwd', user.confPwd);
         validateInput('email', user.email);
         validateInput('dob', user.dob);
         validateInput('phone', user.phone);
         if (!alert.set) {
-            console.log('alert', alert);
+            setUserList(current => ([ ...current, user ]));
             handleUser('s', user);
             navigate("/profile");
         }
@@ -90,8 +100,6 @@ const Signup = (props) => {
     }
 
     const validateInput = (name, value) => {
-        console.log('name', name);
-        console.log('value', value);
         setError(error => {
             const stateObj = { ...error, [name]: "" };
 
@@ -178,7 +186,7 @@ const Signup = (props) => {
                             placeholder='Enter First Name'
                             name='fname'
                             value={user.fname}
-                            onChange={handleTextChange}
+                            onChange={(e) => handleTextChange(e)}
                             fullWidth required />
                     </Box>
                     <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
@@ -189,7 +197,7 @@ const Signup = (props) => {
                             placeholder='Enter Last Name'
                             name='lname'
                             value={user.lname}
-                            onChange={handleTextChange}
+                            onChange={(e) => handleTextChange(e)}
                             fullWidth required />
                     </Box>
                     <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
@@ -200,7 +208,7 @@ const Signup = (props) => {
                             placeholder='Enter Email'
                             name='email'
                             value={user.email}
-                            onChange={handleTextChange}
+                            onChange={(e) => handleTextChange(e)}
                             fullWidth required />
                     </Box>
                     <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
@@ -212,7 +220,7 @@ const Signup = (props) => {
                             type='password'
                             name='pwd'
                             value={user.pwd}
-                            onChange={handleTextChange}
+                            onChange={(e) => handleTextChange(e)}
                             fullWidth required />
                     </Box>
                     <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
@@ -224,19 +232,25 @@ const Signup = (props) => {
                             type='password'
                             name='confPwd'
                             value={user.confPwd}
-                            onChange={handleTextChange}
+                            onChange={(e) => handleTextChange(e)}
                             fullWidth required />
                     </Box>
                     <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
                         <CalendarMonthIcon className='signIcon' />
-                        <TextField
-                            className='signTxtfld'
-                            label='Date Of Birth'
-                            placeholder='MM-DD-YYYY'
-                            name='dob'
-                            value={user.dob}
-                            onChange={handleTextChange}
-                             required />
+                             <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DatePicker
+                                    className='signTxtfld'
+                                    label="Date Of Birth"
+                                    value={user.dob || null}
+                                    name='dob'
+                                    placeholder='MM-DD-YYYY'
+                                    onChange={(date) => {
+                                        setUser(prevState => ({ ...prevState, dob: (date['$d'].getMonth() + 1) + '/' +  date['$d'].getDate()  + '/' +  date['$d'].getFullYear() }));
+                                    }}
+                                    renderInput={(params) => <TextField {...params} />}
+                                    required
+                                />
+                            </LocalizationProvider>
                         <WcIcon className='signIcon' />
                         {/*<Select
                             defaultValue={user.gend}
@@ -251,11 +265,10 @@ const Signup = (props) => {
                             <MenuItem value={'O'}>Other</MenuItem>
     </Select>*/}
     <NativeSelect
-          defaultValue={user.gend}
           className='signTxtfld'
           placeholder='Enter Gender'
           label="Gender"
-          onChange={e => handleSelectChange(e.target)}
+          onChange={(e) => handleSelectChange(e)}
         >
           <option value={'NA'}>Select</option>
           <option value={'F'}>Female</option>
@@ -271,7 +284,7 @@ const Signup = (props) => {
                             placeholder='Enter Address'
                             name='addr'
                             value={user.addr}
-                            onChange={handleTextChange}
+                            onChange={(e) => handleTextChange(e)}
                             fullWidth required />
                     </Box>
                     <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
@@ -282,7 +295,7 @@ const Signup = (props) => {
                             placeholder='XXX-XXX-XXXX'
                             name='phone'
                             value={user.phone}
-                            onChange={handleTextChange}
+                            onChange={(e) => handleTextChange(e)}
                             fullWidth required />
                     </Box>
                     <Button
@@ -291,7 +304,7 @@ const Signup = (props) => {
                         color='primary'
                         variant="contained"
                         className='btnstyle'
-                        onClick={handleSave}
+                        onClick={(e) => handleSave(e)}
                         fullWidth>
                         Continue
                     </Button>

@@ -16,6 +16,7 @@ const Files = (props) => {
             title="Files"
             description="This page displays list of files related to your courses"
             userType={props.userType}
+            setUserType={props.setUserType}
         >
              <Grid container direction='column' rowSpacing={2}>
              <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>

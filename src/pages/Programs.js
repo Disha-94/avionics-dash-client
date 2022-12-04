@@ -24,6 +24,7 @@ const Programs = (props) => {
       title="Programs"
       description="This page provides overview of the programs offered by the website"
       userType={props.userType}
+      setUserType={props.setUserType}
     >
 
       <Box sx={{ height: 180, display: 'flex' }}>
@@ -70,9 +71,9 @@ const Programs = (props) => {
                       You're guaranteed to pass the test or you'll get $175 and a full refund. 99.8% of our students pass.
                     </li>
                   </ul>
-                  <Button variant="contained" size="large" endIcon={<ArrowCircleRightIcon />} onClick={handleEnrol}>
+                  {userType !== 'i' && <Button variant="contained" size="large" endIcon={<ArrowCircleRightIcon />} onClick={handleEnrol}>
                     Enroll Now
-                  </Button>
+                  </Button>}
                 </div>
                 <div className='topright'>
                   <iframe width="100%" height="345" src='https://www.youtube.com/embed/nb74_jkr8u0' title='intro'> </iframe>

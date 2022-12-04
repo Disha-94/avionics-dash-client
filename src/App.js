@@ -2,6 +2,8 @@ import React, { Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Main from './components/Main'; // fallback for lazy pages
 import './scss/main.scss'; // All of our styles
+import courseData from './data/courseList';
+import userData from './data/userList';
 
 const { PUBLIC_URL } = process.env;
 
@@ -25,26 +27,46 @@ const App = () => {
   const [user, setUser] = React.useState({});
   const [userReg, setUserReg] = React.useState(false);
   const [userType, setUserType] = React.useState('v');
-  const [courseId, setCourseId] = React.useState(['ad101', 'ad201']);
+  const [courseId, setCourseId] = React.useState([]);
+  const [courseList, setCourseList] = React.useState(courseData);
+  const [userList, setUserList] = React.useState(userData);
   const handleUser = (userType, user) => {
     setUser(user)
     setUserType(userType);
   }
+  
+  React.useEffect(() => {
+    if(Object.keys(user).length !== 0 && (user['cid'].length > 0 || user['userType'] === 'i')) {
+      setUserReg(true);
+      setCourseId([ ...user['cid'] ]);
+     } else setUserReg(false);
+  },[user])
+
+  React.useEffect(() => {
+    if(userType === 'v'){
+      setUser({});
+      setUserReg(false);
+      setCourseId([]);
+      setCourseList(courseData);
+      setUserList(userData);
+    }
+  },[userType]);
+
   return (
     <BrowserRouter basename={PUBLIC_URL}>
       <Suspense fallback={<Main />}>
         <Routes>
-          <Route exact path="/" element={<Dashboard user={user} userType={userType} handleUser={handleUser} />} />
-          <Route exact path="/login" element={<Login handleUser={handleUser} setUserReg={setUserReg} />} />
-          <Route exact path="/signup" element={<Signup userType={userType} handleUser={handleUser} />} />
-          <Route exact path="/profile" element={<Profile user={user} userType={userType} handleUser={handleUser} />} />
-          <Route exact path="/programs" element={<Programs userType={userType} userReg={userReg} />} />
-          <Route exact path="/files" element={<Files userType={userType} handleUser={handleUser} />} />
-          <Route exact path="/discussions" element={<Discussions userType={userType} handleUser={handleUser} />} />
-          <Route exact path="/courseStudent" element={<CourseStudent user={user} userType={userType} courseId={courseId} />} />
-          <Route exact path="/courseInstructor" element={<CourseInstructor user={user} userType={userType} courseId={courseId} />} />
-          <Route exact path="/selectCourse" element={<CourseSelect user={user} />} />
-          <Route exact path="/payments" element={<Payments userReg={userReg} setUserReg={setUserReg} setCourseId={setCourseId} />} />
+          <Route exact path="/" element={<Dashboard userType={userType} setUserType={setUserType}/>} />
+          <Route exact path="/login" element={<Login handleUser={handleUser} userList={userList}/>} />
+          <Route exact path="/signup" element={<Signup handleUser={handleUser}  setUserList={setUserList} userLength={userList.length}/>} />
+          <Route exact path="/profile" element={<Profile user={user} userType={userType} handleUser={handleUser} setUserType={setUserType}/>} />
+          <Route exact path="/programs" element={<Programs userType={userType} userReg={userReg} setUserType={setUserType}/>} />
+          <Route exact path="/files" element={<Files userType={userType} handleUser={handleUser} setUserType={setUserType}/>}  />
+          <Route exact path="/discussions" element={<Discussions userType={userType} handleUser={handleUser} setUserType={setUserType}/>} />
+          <Route exact path="/courseStudent" element={<CourseStudent user={user} userType={userType} courseId={courseId} courseList={courseList} setCourseList={setCourseList} setUserType={setUserType}/>} />
+          <Route exact path="/courseInstructor" element={<CourseInstructor user={user} userType={userType} courseId={courseId} courseList={courseList} userList={userList} setCourseList={setCourseList} setUserType={setUserType}/>} />
+          <Route exact path="/selectCourse" element={<CourseSelect user={user} courseList={courseList} setUserType={setUserType}/>} />
+          <Route exact path="/payments" element={<Payments userReg={userReg} setUserReg={setUserReg} handleUser={handleUser} />} />
           <Route path="*" element={<NotFound />} status={404} />
         </Routes>
       </Suspense>

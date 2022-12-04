@@ -48,6 +48,7 @@ const Discussions = (props) => {
             title="Discussions"
             description="To discuss ideas and topics"
             userType={props.userType}
+            setUserType={props.setUserType}
         >
             <ChatEngine
                 height='100vh'

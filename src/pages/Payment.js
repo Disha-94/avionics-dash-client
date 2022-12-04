@@ -78,7 +78,7 @@ const Payment = (props) => {
 
   const handleNext = () => {
     if (activeStep === steps.length - 1) {
-      props.setUserReg(true);
+      props.setUser(prevState => ({ ...prevState, cid: 0}));
       props.setCourseId(current => [...current, location.state.courseID]);
       navigate('/programs');
     } else {
