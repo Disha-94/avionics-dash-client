@@ -49,6 +49,7 @@ const App = () => {
       });
       setUserList([...temp]);
     }
+    // eslint-disable-next-line 
   },[user])
 
   React.useEffect(() => {

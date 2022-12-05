@@ -1,9 +1,6 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
-import moment from 'moment'
 import { Grid, Paper, Avatar, TextField, Button } from '@material-ui/core'
-import Alert from '@mui/material/Alert';
-import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 //import MenuItem from '@mui/material/MenuItem';
 import PersonAddAltRoundedIcon from '@mui/icons-material/PersonAddAltRounded';
@@ -30,7 +27,7 @@ const styles = {
 };
 
 const Signup = (props) => {
-    const {handleUser, setUserList} = props;
+    const { handleUser, setUserList } = props;
     const navigate = useNavigate();
 
     const [user, setUser] = React.useState({
@@ -50,24 +47,39 @@ const Signup = (props) => {
         facts: "Some fun facts about me...."
 
     });
-    const [error, setError] = React.useState({
-        password: '',
-        email: '',
-        date: '',
-        phone: ''
-    });
-    const [alert, setAlert] = React.useState({
-        set: false,
-        password: false,
-        email: false,
-        date: false,
-        phone: false
+    const [error] = React.useState({
+        password: 'Password Mismatch',
+        email: 'Incorrect Email Format',
+        nullError: {
+            fname: 'First Name is Required',
+            lname: 'Last Name is Required',
+            email: 'Email is Required',
+            pwd: 'Please Enter the Password',
+            confPwd: 'Please Re-Enter the Password',
+            dob: 'Date of Birth is Required',
+        }
     });
 
-    const handleTextChange = (event, field) => {
+    const [alert, setAlert] = React.useState({
+        email: false,
+        password: false,
+        nullError: {
+            fname: false,
+            lname: false,
+            email: false,
+            pwd: false,
+            confPwd: false,
+            dob: false,
+        }
+    });
+
+    const handleTextChange = (event) => {
         const { name, value } = event.target;
         const temp = Object.assign({}, user, { [name]: value });
         setUser(temp);
+        if (alert.nullError[name]) setAlert(curr => ({ ...curr, nullError: { ...curr.nullError, [name]: false } }));
+        if (name === 'email' && alert['email']) setAlert(curr => ({ ...curr, email: false }));
+        if ((name === 'pwd' || name === 'confPwd') && alert['password']) setAlert(curr => ({ ...curr, password: false }));
     }
 
     const handleSelectChange = (event) => {
@@ -82,98 +94,43 @@ const Signup = (props) => {
     }
 
     const handleSave = (e) => {
-        e.preventDefault();
-
-        validateInput('confPwd', user.confPwd);
-        validateInput('email', user.email);
-        validateInput('dob', user.dob);
-        validateInput('phone', user.phone);
-        if (!alert.set) {
-            console.log('props.userList', props.userList);
-            setUserList([ ...props.userList, { ...user} ]);
+        const nullValue = checkForEmptyFields();
+        const InvalidValue = validateInput();
+        if (!nullValue && !InvalidValue) {
+            setUserList([...props.userList, { ...user }]);
             handleUser('s', user);
             navigate("/profile");
         }
     }
 
-    const handleAlertClose = (e, val) => {
-        setAlert({ ...alert, [val]: false, set: false })
-    }
-
-    const validateInput = (name, value) => {
-        setError(error => {
-            const stateObj = { ...error, [name]: "" };
-
-            switch (name) {
-                case "confPwd":
-                    if (!value) {
-                        stateObj["password"] = "Please Re-Enter the Password.";
-                        const temp = Object.assign({}, alert, { set: true, password: true });
-                        setAlert(temp);
-                    } else if (user.pwd && value !== user.pwd) {
-                        stateObj["password"] = "Password and Confirm Password does not match.";
-                        const temp = Object.assign({}, alert, { set: true, password: true });
-                        setAlert(temp);
-                        console.log('camepass', stateObj, "\n", alert);
-                    }
-                    break;
-
-                case "email":
-                    if (!value) {
-                        stateObj["email"] = "Email ID is required";
-                        const temp = Object.assign({}, alert, { set: true, email: true });
-                        setAlert(temp);
-                    } else if (moment(value, 'Dd-MM-YYYY').isValid()) {
-                        console.log('cameemail', name);
-                        stateObj["email"] = "Invalid Email ID";
-                        const temp = Object.assign({}, alert, { set: true, email: true });
-                        setAlert(temp);
-                    }
-                    break;
-
-                case "dob":
-                    if (!value) {
-                        stateObj["dob"] = "Date of Birth is required";
-                        const temp = Object.assign({}, alert, { set: true, dob: true });
-                        setAlert(temp);
-                    } else if (!(/\S+@\S+\.\S+/.test(value))) {
-                        console.log('camedob', name);
-                        stateObj["dob"] = "Date must follow format: DD-MM-YYYY.";
-                        const temp = Object.assign({}, alert, { set: true, dob: true });
-                        setAlert(temp);
-                    }
-                    break;
-
-                case "phone":
-                    if (!value) {
-                        stateObj["phone"] = "Phone Number is required";
-                        const temp = Object.assign({}, alert, { set: true, phone: true });
-                        setAlert(temp);
-                    } else if (!(/^\(?([0-9]{3})\)?[-]?([0-9]{3})[-]?([0-9]{4})$/).test(value)) {
-                        console.log('phone', name);
-                        stateObj["phone"] = "Phone Number must follow format: XXX-XXX-XXXX";
-                        const temp = Object.assign({}, alert, { set: true, phone: true });
-                        setAlert(temp);
-                    }
-                    break;
-
-                default:
-                    break;
+    const checkForEmptyFields = () => {
+        let nullValue = false;
+        ['fname', 'lname', 'email', 'pwd', 'confPwd', 'dob'].forEach(el => {
+            if (!user[el]) {
+                let nullErr = alert.nullError;
+                nullErr[el] = true;
+                setAlert(curr => ({ ...curr, nullError: nullErr }));
+                if (!nullValue) nullValue = true;
             }
-
-            return stateObj;
         });
+        return nullValue;
+    }
+    const validateInput = () => {
+        let InvalidValue = false;
+        if (user.pwd && user.confPwd && user.pwd !== user.confPwd) {
+            setAlert(curr => ({ ...curr, password: true }));
+            if (!InvalidValue) InvalidValue = true;
+        }
+        if (!alert['nullError']['email'] && !user['email'].match(/\S+@\S+\.\S+/)) {
+            setAlert(curr => ({ ...curr, email: true }));
+            if (!InvalidValue) InvalidValue = true;
+        }
+        return InvalidValue;
     }
 
     return (
         <Grid className='signGrid' style={styles.gridContainer}>
             <Paper elevation={10} className='signPaper'>
-                <Stack sx={{ width: '100%' }} spacing={2}>
-                    {alert.password && <Alert onClose={e => handleAlertClose(e, 'password')} severity="error">{error.password}</Alert>}
-                    {alert.email && <Alert onClose={e => handleAlertClose(e, 'email')} severity="error">{error.email}</Alert>}
-                    {alert.dob && <Alert onClose={e => handleAlertClose(e, 'dob')} severity="error">{error.dob}</Alert>}
-                    {alert.phone && <Alert onClose={e => handleAlertClose(e, 'phone')} severity="error">{error.phone}</Alert>}
-                </Stack>
                 <Grid align='center'>
                     <Avatar><PersonAddAltRoundedIcon /></Avatar>
                     <h2>New User</h2>
@@ -183,99 +140,103 @@ const Signup = (props) => {
                         <PersonIcon className='signIcon' />
                         <TextField
                             className='signTxtfld'
+                            error={alert.nullError.fname}
                             label='First Name'
                             placeholder='Enter First Name'
                             name='fname'
                             value={user.fname}
                             onChange={(e) => handleTextChange(e)}
-                            fullWidth required />
+                            helperText={alert.nullError.fname && error.nullError.fname}
+                            fullWidth
+                            required />
                     </Box>
                     <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
                         <PersonIcon className='signIcon' />
                         <TextField
                             className='signTxtfld'
+                            error={alert.nullError.lname}
                             label='Last Name'
                             placeholder='Enter Last Name'
                             name='lname'
                             value={user.lname}
                             onChange={(e) => handleTextChange(e)}
-                            fullWidth required />
+                            helperText={alert.nullError.lname && error.nullError.lname}
+                            fullWidth
+                            required />
                     </Box>
                     <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
                         <EmailIcon className='signIcon' />
                         <TextField
                             className='signTxtfld'
+                            error={alert.nullError.email || alert.email}
                             label='Email'
                             placeholder='Enter Email'
                             name='email'
                             value={user.email}
                             onChange={(e) => handleTextChange(e)}
-                            fullWidth required />
+                            helperText={(alert.nullError.email && error.nullError.email) || (alert.email && error.email)}
+                            fullWidth
+                            required />
                     </Box>
                     <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
                         <VpnLockIcon className='signIcon' />
                         <TextField
                             className='signTxtfld'
+                            error={alert.nullError.pwd || alert.password}
                             label='Password'
                             placeholder='Enter Password'
                             type='password'
                             name='pwd'
                             value={user.pwd}
                             onChange={(e) => handleTextChange(e)}
-                            fullWidth required />
+                            helperText={(alert.nullError.pwd && error.nullError.pwd) || (alert.password && error.password)}
+                            fullWidth
+                            required />
                     </Box>
                     <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
                         <VpnLockIcon className='signIcon' />
                         <TextField
                             className='signTxtfld'
+                            error={alert.nullError.confPwd || alert.password}
                             label='Confirm Password'
                             placeholder='Re-Enter Password'
                             type='password'
                             name='confPwd'
                             value={user.confPwd}
                             onChange={(e) => handleTextChange(e)}
+                            helperText={(alert.nullError.confPwd && error.nullError.confPwd) || (alert.password && error.password)}
                             fullWidth required />
                     </Box>
                     <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
                         <CalendarMonthIcon className='signIcon' />
-                             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DatePicker
-                                    className='signTxtfld'
-                                    label="Date Of Birth"
-                                    value={user.dob || null}
-                                    name='dob'
-                                    placeholder='MM-DD-YYYY'
-                                    onChange={(date) => {
-                                        setUser(prevState => ({ ...prevState, dob: (date['$d'].getMonth() + 1) + '/' +  date['$d'].getDate()  + '/' +  date['$d'].getFullYear() }));
-                                    }}
-                                    renderInput={(params) => <TextField {...params} />}
-                                    required
-                                />
-                            </LocalizationProvider>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DatePicker
+                                className='signTxtfld'
+
+                                label="Date Of Birth"
+                                value={user.dob || null}
+                                placeholder='MM-DD-YYYY'
+                                onChange={(date) => {
+                                    setUser(prevState => ({ ...prevState, dob: (date['$d'].getMonth() + 1) + '/' + date['$d'].getDate() + '/' + date['$d'].getFullYear() }));
+                                    if (alert.nullError['dob']) setAlert(curr => ({ ...curr, nullError: { ...curr.nullError, dob: false } }));
+                                }}
+                                renderInput={(params) => <TextField {...params} error={alert.nullError.dob} helperText={alert.nullError.dob && error.nullError.dob} />}
+                                required
+                            />
+                        </LocalizationProvider>
                         <WcIcon className='signIcon' />
-                        {/*<Select
-                            defaultValue={user.gend}
+
+                        <NativeSelect
                             className='signTxtfld'
                             placeholder='Enter Gender'
                             label="Gender"
-                            onChange={e => handleSelectChange(e.target)}
+                            onChange={(e) => handleSelectChange(e)}
                         >
-                            <MenuItem value={'NA'}>Select Gender</MenuItem>
-                            <MenuItem value={'F'}>Female</MenuItem>
-                            <MenuItem value={'M'}>Male</MenuItem>
-                            <MenuItem value={'O'}>Other</MenuItem>
-    </Select>*/}
-    <NativeSelect
-          className='signTxtfld'
-          placeholder='Enter Gender'
-          label="Gender"
-          onChange={(e) => handleSelectChange(e)}
-        >
-          <option value={'NA'}>Select</option>
-          <option value={'F'}>Female</option>
-          <option value={'M'}>Male</option>
-          <option value={'O'}>Other</option>
-        </NativeSelect>
+                            <option value={'NA'}>Select</option>
+                            <option value={'F'}>Female</option>
+                            <option value={'M'}>Male</option>
+                            <option value={'O'}>Other</option>
+                        </NativeSelect>
                     </Box>
                     <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
                         <HomeIcon className='signIcon' />
@@ -286,7 +247,7 @@ const Signup = (props) => {
                             name='addr'
                             value={user.addr}
                             onChange={(e) => handleTextChange(e)}
-                            fullWidth required />
+                            fullWidth />
                     </Box>
                     <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
                         <ContactPhoneIcon className='signIcon' />
@@ -297,10 +258,9 @@ const Signup = (props) => {
                             name='phone'
                             value={user.phone}
                             onChange={(e) => handleTextChange(e)}
-                            fullWidth required />
+                            fullWidth />
                     </Box>
                     <Button
-                        component={Link} to="/"
                         type='submit'
                         color='primary'
                         variant="contained"
@@ -309,6 +269,7 @@ const Signup = (props) => {
                         fullWidth>
                         Continue
                     </Button>
+                    <Button component={Link} to='/'>Home</Button>
                 </FormControl>
             </Paper>
         </Grid>

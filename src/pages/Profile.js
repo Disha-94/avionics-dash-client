@@ -15,9 +15,9 @@ const Profile = (props) => {
         confPwd: props.user.confPwd,
         dob: props.user.dob || '12/12/1994',
         gend: props.user.gend || 'Male',
-        addr: props.user.addr,
+        addr: props.user.addr || '',
         edu: props.user.edu || 'Masters in Engineering',
-        phone: props.user.phone || '123-456-789',
+        phone: props.user.phone || '',
         facts: props.user.facts || "Some fun facts about me....",
         userType: props.user.userType,
         cid: props.user.cid
@@ -191,8 +191,8 @@ const Profile = (props) => {
                                     label="About Myself"
                                     name='facts'
                                     onChange={(e) => handleChange(e)}
-                                    multiline={true}
-                                    rows={4}
+                                    multiline={false}
+                                    //rows={4}
                                     value={user.facts}
                                     disabled={disabled}
                                     sx={{
