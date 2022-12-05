@@ -44,7 +44,6 @@ const Success = () => {
         <Typography
           className={classes.title}
           variant="h2"
-          color="success"
           gutterBottom
         >
           <b> Course Purchase Complete </b>

@@ -32,7 +32,6 @@ const Deliverable = (props) => {
     }, [props.assign]);
 
     const changeHandler = (event) => {
-        console.log('filedata: ', event.target.files[0]);
         setSelectedFile(event.target.files[0]);
         setIsSelected(true);
     };
@@ -40,7 +39,6 @@ const Deliverable = (props) => {
     const handleUpload = (assignment) => {
         setOpen(true);
         setSelectedItem(assignment);
-        console.log('assignUp: ', assignment);
     }
 
     const handleCancel = () => {
@@ -49,46 +47,6 @@ const Deliverable = (props) => {
     }
 
     const handleSubmission = () => {
-        {/* const formData = new FormData();
-
-        formData.append('File', selectedFile);
-
-        fetch(
-            'https://freeimage.host/api/1/upload/?key=6d207e02198a847aa98d0a2a901485a5',
-            {
-                method: 'POST',
-                body: formData,
-            }
-        )
-            .then((response) => response.json())
-            .then((result) => {
-                console.log('Success:', result);
-                const temp = [];
-                assign.forEach(item => {
-                    if (item.id === selectedItem.id) {
-                        temp.push({
-                            id: item.id,
-                            name: item.name,
-                            desc: item.desc,
-                            due: item.due,
-                            grade: 'PENDING',
-                            submitted: true,
-                            subDate: `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`,
-                            points: item.points
-
-                        });
-                    }
-                    else {
-                        temp.push(item);
-                    }
-                });
-                setAssign(temp)
-                console.log('temp: ', temp);
-                setOpen(false);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });*/}
         const temp = [];
         assign.forEach(item => {
             if (item.id === selectedItem.id) {
@@ -109,7 +67,6 @@ const Deliverable = (props) => {
             }
         });
         setAssign(temp)
-        console.log('temp: ', temp);
         setOpen(false);
     };
 

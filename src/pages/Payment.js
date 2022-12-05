@@ -78,8 +78,9 @@ const Payment = (props) => {
 
   const handleNext = () => {
     if (activeStep === steps.length - 1) {
-      props.setUser(prevState => ({ ...prevState, cid: 0}));
-      props.setCourseId(current => [...current, location.state.courseID]);
+      let temp = Object.keys(props.user).length > 0 ? props.user.cid : [];
+      temp.push(location.state.courseID);
+      props.setUser(prevState => ({ ...prevState, cid: temp}));
       navigate('/programs');
     } else {
       let newSkipped = skipped;

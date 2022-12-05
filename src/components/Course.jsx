@@ -68,7 +68,6 @@ const Course = (props) => {
     };
 
     const handleModSelect = (module) => {
-        console.log('module: ', module);
         setMod(module);
         setValue(1);
     }

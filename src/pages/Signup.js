@@ -89,7 +89,8 @@ const Signup = (props) => {
         validateInput('dob', user.dob);
         validateInput('phone', user.phone);
         if (!alert.set) {
-            setUserList(current => ([ ...current, user ]));
+            console.log('props.userList', props.userList);
+            setUserList([ ...props.userList, { ...user} ]);
             handleUser('s', user);
             navigate("/profile");
         }
