@@ -94,6 +94,7 @@ React.useEffect(() => {
     props.setUserType('v');
     navigate('/');
   }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
 },[logout]);
 
   const handleNotClick = (newState) => () => {
@@ -156,7 +157,7 @@ React.useEffect(() => {
               Avionics Dash
             </Typography>
             <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
+              <Badge badgeContent={'0'} color="secondary">
                 <NotificationsIcon  onClick={handleNotClick({
           vertical: 'top',
           horizontal: 'right',

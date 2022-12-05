@@ -2,7 +2,8 @@
   "name": "avionics_dash",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://mldangelo.com/",
+  "proxy":"http://localhost:3000/",
+  "homepage": "https://avionics-dash.netlify.app",
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",

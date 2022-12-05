@@ -49,7 +49,7 @@ const App = () => {
       });
       setUserList([...temp]);
     }
-    // eslint-disable-next-line 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[user])
 
   React.useEffect(() => {
