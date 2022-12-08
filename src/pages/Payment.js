@@ -1,4 +1,5 @@
 import React from "react";
+import { addCourse, getUser } from "../data/api";
 import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
@@ -78,10 +79,20 @@ const Payment = (props) => {
 
   const handleNext = () => {
     if (activeStep === steps.length - 1) {
-      let temp = Object.keys(props.user).length > 0 ? props.user.cid : [];
-      temp.push(location.state.courseID);
-      props.setUser(prevState => ({ ...prevState, cid: temp}));
-      navigate('/programs');
+      addCourse(location.state.courseID, props.user.id, props.token).then(value => {
+        if ((value+'').includes('2')) {
+          getUser(props.user.email, props.token).then(usr => {
+            if (usr.data) {
+              props.handleUser(usr.data['role'], usr.data);
+              navigate("/programs");
+            }
+          });
+        }
+      })
+      //let temp = Object.keys(props.user).length > 0 ? props.user.course_ids : [];
+      //temp.push(location.state.courseID);
+      //props.setUser(prevState => ({ ...prevState, course_ids: temp}));
+      //navigate('/programs');
     } else {
       let newSkipped = skipped;
       if (isStepSkipped(activeStep)) {

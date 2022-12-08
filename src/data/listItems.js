@@ -17,7 +17,7 @@ import routes from './routes';
 import { Link } from 'react-router-dom';
 
 const MainListItems = (props) => {
-  const {userType} = props;
+  const {userType, userReg} = props;
   return (
     <React.Fragment>
       {routes.filter((l) => l.index).map((l) => {
@@ -48,10 +48,10 @@ const MainListItems = (props) => {
               </ListItemIcon>
               <ListItemText primary="Programs" />
               <div className="font-icon-wrapper" onClick={(e) => props.handleClick(e, 'p')}>
-               {userType !== 'v' ?props.openProg ? <ExpandLess /> : <ExpandMore />: ''}
+               {userType !== 'v' && userReg ? props.openProg ? <ExpandLess /> : <ExpandMore />: ''}
               </div>
             </ListItemButton>
-            {userType !== 'v' &&<Collapse in={props.openProg} timeout="auto" unmountOnExit>
+            {userType !== 'v' && userReg &&<Collapse in={props.openProg} timeout="auto" unmountOnExit>
               <ListItemButton component={Link} to={userType === 's' ? "/courseStudent" : "/courseInstructor"}  key={4}>
                 <ListItemIcon>
                   <ViewModuleIcon />

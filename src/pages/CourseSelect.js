@@ -1,17 +1,19 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
+//import { getAllCourses } from '../data/api';
 import Main from '../components/Main';
 import { Grid, ImageList, ImageListItem, ImageListItemBar, ListSubheader, IconButton } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import "../scss/pages/courseSelect.scss"
 
 const CourseSelect = (props) => {
-  const {courseList} = props;
+  const { courseList } = props;
   const navigate = useNavigate();
 
   const handleSelect = (id) => {
     navigate('/payments', { state: { courseID: id } });
   }
+
   return (
     <Main
       title="Courses"

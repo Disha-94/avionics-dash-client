@@ -199,6 +199,7 @@ React.useEffect(() => {
           <List component="nav">
             <MainListItems 
             userType = {props.userType}
+            userReg={props.userReg} 
             handleClick={handleClick}
             openProf={openProf}
             openProg={openProg} />

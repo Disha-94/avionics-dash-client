@@ -4,7 +4,7 @@ const courseData = [
     title: 'Private Pilot Made Easy Online Ground School',
     price: '- $890',
     desc: 'Our online ground school will help you pass the FAA Private Pilot test with flying colors. Achieve your dreams of flying an airplane.',
-    id: 'ad101',
+    id: '639121637ca4efd619d0e85a',
     rows: 2,
     cols: 2,
     featured: true,
@@ -66,7 +66,7 @@ const courseData = [
     title: 'Instrument Rating Made Easy',
     price: '- $549',
     desc: 'Our online ground school will help you get your Instrument Rating so you can fly into rough conditions and gain additional privileges.',
-    id: 'ad201',
+    id: '639121637ca4efd619d0e85b',
     modules: [
       {
         id: 'c2-001',
@@ -124,7 +124,7 @@ const courseData = [
     title: 'Commercial Pilot Made Easy',
     price: '- $890',
     desc: 'Our online ground school will help you pass the FAA Commercial Pilot exam with flying colors.',
-    id: 'ad301',
+    id: '63914991c50046f26c4a3b1c',
     modules: [
       {
         id: 'c3-001',
@@ -182,7 +182,7 @@ const courseData = [
     title: 'Checkride Made Easy',
     price: '- $249',
     desc: 'Get advice directly from a Designated Pilot Examiner on what you need to know and demonstrate to pass your checkride.',
-    id: 'ad401',
+    id: '63914991c50046f26c4a3b1d',
     cols: 2,
     modules: [
       {
@@ -241,7 +241,7 @@ const courseData = [
     title: 'Private Pilot + Instrument Rating Ground School Bundle',
     price: '- $1559',
     desc: 'This bundle provides you with your ground school for a Private Pilot license and an Instrument Rating.',
-    id: '@ad501',
+    id: '63914991c50046f26c4a3b1e',
     cols: 2,
     modules: [
       {

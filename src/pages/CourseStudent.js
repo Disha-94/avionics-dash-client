@@ -28,7 +28,7 @@ const Deliverable = (props) => {
     const current = new Date();
 
     React.useEffect(() => {
-        setAssign([...props.assign]);
+        setAssign(props.assign);
     }, [props.assign]);
 
     const changeHandler = (event) => {
@@ -77,7 +77,7 @@ const Deliverable = (props) => {
                     <Tooltip title="Submitted. Pending Grading">
                         <IconButton edge="end" aria-label="delete">
                             <PendingTwoToneIcon sx={{ color: orange[300] }} />
-                        </IconButton> 
+                        </IconButton>
                     </Tooltip>
                 );
             else return (
@@ -151,12 +151,12 @@ const Deliverable = (props) => {
 };
 
 const CourseStudent = (props) => {
-    const { courseId, courseList } = props || [];
-    const [myCourse] = React.useState(courseList.filter(el => {
-        return courseId.some(cid => {
-            return cid === el.id
+    const { courseList } = props || [];
+    /*const [myCourse] = React.useState(courseList.filter(el => {
+        return courseId.some(course_ids => {
+            return course_ids === el.id
         });
-    }))
+    }))*/
     const [assign, setAssign] = React.useState([]);
 
     return (
@@ -167,7 +167,7 @@ const CourseStudent = (props) => {
             setUserType={props.setUserType}
         >
             <Course
-                myCourse={myCourse}
+                myCourse={courseList}
                 userType={props.userType || ''}
                 deliverable={
                     <Deliverable

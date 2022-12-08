@@ -1,9 +1,9 @@
 import React, { Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { getAllCourses, getUserCourse } from './data/api';
 import Main from './components/Main'; // fallback for lazy pages
 import './scss/main.scss'; // All of our styles
 import courseData from './data/courseList';
-import userData from './data/userList';
 
 const { PUBLIC_URL } = process.env;
 
@@ -28,55 +28,142 @@ const App = () => {
   const [userReg, setUserReg] = React.useState(false);
   const [userType, setUserType] = React.useState('v');
   const [courseId, setCourseId] = React.useState([]);
-  const [courseList, setCourseList] = React.useState([...courseData]);
-  const [userList, setUserList] = React.useState([...userData]);
+  const [courseList, setCourseList] = React.useState([]);
+  const [allCourse, setAllCourse] = React.useState([])
+  const [token, setToken] = React.useState('');
   const handleUser = (userType, user) => {
     setUser(user)
     setUserType(userType);
   }
-  
-  React.useEffect(() => {
-    if(Object.keys(user).length !== 0){
-      if(user['cid'].length > 0 || user['userType'] === 'i') {
-      setUserReg(true);
-      setCourseId([ ...user['cid'] ]);
-     } else setUserReg(false);
-     const temp = userList.map(obj => { 
-      if(user.uid === obj.uid) 
-        return user 
-      else 
-        return obj
-      });
-      setUserList([...temp]);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[user])
 
   React.useEffect(() => {
-    if(userType === 'v'){
+    getAllCourses().then(value => {
+      if (value.data) {
+        setAllCourse([ ...value.data]);
+      }
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  React.useEffect(() => {
+    if(user.id){
+    getUserCourse(user.id, token).then(value => {
+      if(value.data){
+        setCourseList([ ...value.data]);
+      }
+    })
+  }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
+
+  React.useEffect(() => {
+    if (Object.keys(user).length !== 0) {
+      if (user['course_ids'].length > 0 || user['userType'] === 'i') {
+        setUserReg(true);
+        user['course_ids'] && setCourseId([...user['course_ids']]);
+      } else setUserReg(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user])
+
+  React.useEffect(() => {
+    if (userType === 'v') {
       setUser({});
       setUserReg(false);
       setCourseId([]);
       setCourseList([...courseData]);
-      setUserList([...userData]);
     }
-  },[userType]);
+  }, [userType]);
 
   return (
     <BrowserRouter basename={PUBLIC_URL}>
       <Suspense fallback={<Main />}>
         <Routes>
-          <Route exact path="/" element={<Dashboard userType={userType} setUserType={setUserType}/>} />
-          <Route exact path="/login" element={<Login handleUser={handleUser} userList={userList}/>} />
-          <Route exact path="/signup" element={<Signup handleUser={handleUser}  setUserList={setUserList} userLength={userList.length} userList={userList}/>}/>
-          <Route exact path="/profile" element={<Profile user={user} userType={userType} handleUser={handleUser} setUserType={setUserType}/>} />
-          <Route exact path="/programs" element={<Programs userType={userType} userReg={userReg} setUserType={setUserType}/>} />
-          <Route exact path="/files" element={<Files userType={userType} handleUser={handleUser} setUserType={setUserType}/>}  />
-          <Route exact path="/discussions" element={<Discussions userType={userType} handleUser={handleUser} setUserType={setUserType}/>} />
-          <Route exact path="/courseStudent" element={<CourseStudent user={user} userType={userType} courseId={courseId} courseList={courseList} setCourseList={setCourseList} setUserType={setUserType}/>} />
-          <Route exact path="/courseInstructor" element={<CourseInstructor user={user} userType={userType} courseId={courseId} courseList={courseList} userList={userList} setCourseList={setCourseList} setUserType={setUserType}/>} />
-          <Route exact path="/selectCourse" element={<CourseSelect user={user} courseList={courseList} setUserType={setUserType}/>} />
-          <Route exact path="/payments" element={<Payments userReg={userReg} user={user} setUser={setUser} handleUser={handleUser} />} />
+          <Route exact path="/" element={<Dashboard userType={userType} setUserType={setUserType} />} />
+          <Route exact path="/login" element={
+            <Login
+              handleUser={handleUser}
+              user={user}
+              token={token}
+              setToken={setToken}
+            />
+          } />
+          <Route exact path="/signup" element={
+            <Signup
+              handleUser={handleUser}
+              setToken={setToken}
+            />}
+          />
+          <Route exact path="/profile" element={token ?
+            <Profile
+              user={user}
+              userType={userType}
+              userReg={userReg}
+              handleUser={handleUser}
+              setUserType={setUserType}
+            /> : <Dashboard userType={userType} setUserType={setUserType} />}
+          />
+          <Route exact path="/programs" element={
+            <Programs
+              userType={userType}
+              userReg={userReg}
+              setUserType={setUserType}
+            />}
+          />
+          <Route exact path="/files" element={
+            <Files
+              userType={userType}
+              userReg={userReg}
+              setUserType={setUserType}
+            />}
+          />
+          <Route exact path="/discussions" element={
+            <Discussions
+              userType={userType}
+              userReg={userReg}
+              setUserType={setUserType}
+            />}
+          />
+          <Route exact path="/courseStudent" element={token ?
+            <CourseStudent
+              user={user}
+              userType={userType}
+              courseId={courseId}
+              courseList={courseList}
+              setCourseList={setCourseList}
+              setUserType={setUserType}
+              token={token}
+            /> : <Dashboard userType={userType} setUserType={setUserType} />}
+          />
+          <Route exact path="/courseInstructor" element={token ?
+            <CourseInstructor
+              user={user}
+              userType={userType}
+              courseId={courseId}
+              courseList={courseList}
+              setCourseList={setCourseList}
+              setUserType={setUserType}
+              token={token}
+            /> : <Dashboard userType={userType} setUserType={setUserType} />}
+          />
+          <Route exact path="/selectCourse" element={token ?
+            <CourseSelect
+              user={user}
+              courseList={allCourse}
+              setUserType={setUserType}
+              token={token}
+              setCourseList={setCourseList}
+            /> : <Dashboard userType={userType} setUserType={setUserType} />}
+          />
+          <Route exact path="/payments" element={token ?
+            <Payments
+              userReg={userReg}
+              user={user}
+              setUser={setUser}
+              handleUser={handleUser}
+              token={token}
+            /> : <Dashboard userType={userType} setUserType={setUserType} />}
+          />
           <Route path="*" element={<NotFound />} status={404} />
         </Routes>
       </Suspense>

@@ -2,6 +2,7 @@
 # avionics-dash-client
 User Interface for Avionics Dash
 =======
+Note: You’ll need to have Node >= 14 on your local development machine
 
 You can run it from any command line interface (CLI)
 

@@ -47,6 +47,7 @@ const Discussions = (props) => {
         <Main
             title="Discussions"
             description="To discuss ideas and topics"
+            userReg={props.userReg}
             userType={props.userType}
             setUserType={props.setUserType}
         >

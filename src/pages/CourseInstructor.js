@@ -90,13 +90,13 @@ const Deliverable = (props) => {
     const handleAdd = () => {
         course['assignments'].push(newAssign);
         let updatedCourse = courseList.map(el => {
-            if(el.id === course.id)
-            return {...el, assignments: course['assignments']};
+            if (el.id === course.id)
+                return { ...el, assignments: course['assignments'] };
             else return el;
-         } )
-         setCourseList([ ...updatedCourse]);
-         setOpenAdd(false);
-         setTimeout(() => {
+        })
+        setCourseList([...updatedCourse]);
+        setOpenAdd(false);
+        setTimeout(() => {
             setNewAssign({
                 id: '',
                 name: '',
@@ -106,8 +106,8 @@ const Deliverable = (props) => {
                 submitted: false,
                 subDate: 'NA',
                 grade: 'NA'
-            },[3000]);
-         })
+            }, [3000]);
+        })
     }
 
     const handleNoAdd = () => {
@@ -130,7 +130,7 @@ const Deliverable = (props) => {
                 <IconButton onClick={() => {
                     setOpenAdd(true);
                     //const temp = Object.assign({}, newAssign, { id: course['assignments'].length + 1 });
-                    setNewAssign(prevState => ({ ...prevState, id:`a${course['assignments'].length + 1 }`}));
+                    setNewAssign(prevState => ({ ...prevState, id: `a${course['assignments'].length + 1}` }));
                 }}>
                     <AddBoxTwoToneIcon color="primary" sx={{ fontSize: 40, float: 'right' }} />
                 </IconButton>
@@ -251,12 +251,8 @@ const CourseInstructor = (props) => {
     const [myCourse, setMyCourse] = React.useState([]);
 
     React.useEffect(() => {
-        setMyCourse([ ...props.courseList.filter(el => {
-            return props.courseId.some(cid => {
-                return cid === el.id
-            });
-        })]);
-    },[props.courseList, props.courseId]);
+        setMyCourse([...props.courseList]);
+    }, [props.courseList]);
 
     React.useEffect(() => {
         setCourse(myCourse[0]);

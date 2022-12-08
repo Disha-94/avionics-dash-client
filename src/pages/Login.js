@@ -1,4 +1,5 @@
 import React from 'react';
+import { loginUser, getUser } from '../data/api';
 import { useNavigate } from "react-router-dom";
 import { Grid, Paper, Avatar, TextField, Button, Typography } from '@material-ui/core'
 import Box from '@mui/material/Box';
@@ -34,8 +35,20 @@ const Login = (props) => {
     const [open, setOpen] = React.useState(false);
     const [forgot, setForgot] = React.useState({
         email: '',
-        phone: ''
+        phoneNumber: ''
     })
+
+    React.useEffect(() => {
+        if (props.token !== '') {
+            getUser(login.email, props.token).then(usr => {
+                if (usr.data) {
+                    props.handleUser(usr.data['role'], usr.data);
+                    navigate("/programs");
+                }
+            });
+        }
+        // eslint-disable-next-line
+    }, [props.token])
 
     const handleTextChange = (event) => {
         error && setError(false);
@@ -52,22 +65,22 @@ const Login = (props) => {
     }
 
     const handleLogin = () => {
-        props.userList.forEach(user => {
-            if (login.email === user.email && login.pwd === user.pwd) {
-                props.handleUser(user['userType'], user);
-                navigate("/programs");
-            } else setError(true);
-        })
+        loginUser(login).then(value => {
+            if (value.token) {
+                props.setToken(value.token);
+            }
+            else if((value.status+'').includes('4') || value.data.error_message){
+                setError(true);
+            }
+        });
     }
 
     const handleDone = () => {
-        props.userList.forEach(user => {
-            if (forgot.email === user.email && forgot.phone === user.phone) {
-                setOpen(false);
-                error && setError(false);
-                navigate("/");
-            } else setError(true);
-        });
+        if (forgot.email === props.user.email && forgot.phoneNumber === props.user.phoneNumber) {
+            setOpen(false);
+            error && setError(false);
+            navigate("/");
+        } else setError(true);
     };
 
     const handleCancel = () => {
@@ -75,7 +88,7 @@ const Login = (props) => {
         setOpen(false);
         setForgot({
             email: '',
-            phone: ''
+            phoneNumber: ''
         });
     }
 
@@ -114,8 +127,9 @@ const Login = (props) => {
                         required />
                 </Box>
                 <Button onClick={handleLogin} type='submit' color='primary' variant="contained" className='btnstyle' fullWidth>
-                    Conitnue
+                    Continue
                 </Button>
+                <Button variant="outlined" component={Link} to='/' fullWidth>Home</Button>
                 <Typography component={'div'} className='loginTypo' >
                     <Link onClick={() => {
                         setOpen(true);
@@ -129,6 +143,7 @@ const Login = (props) => {
                         Sign Up
                     </Link>
                 </Typography>
+
             </Paper>
             <Dialog open={open} onClose={() => setOpen(true)}>
                 <DialogTitle style={styles.dialogTitle}>Password Recovery</DialogTitle>
@@ -153,7 +168,7 @@ const Login = (props) => {
                         autoFocus
                         margin="dense"
                         label="Phone Number"
-                        name='phone'
+                        name='phoneNumber'
                         onChange={handleForgotChange}
                         helperText={error && "Incorrect Email/Phone Number"}
                         fullWidth

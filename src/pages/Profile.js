@@ -7,21 +7,23 @@ import '../scss/pages/profile.scss'
 
 const Profile = (props) => {
     const [user, setUser] = React.useState({
-        uid: props.uid || 0,
-        fname: props.user.fname || 'Ross',
-        lname: props.user.lname || 'Geller',
+        id: props.id || 0,
+        firstName: props.user.firstName || 'Ross',
+        lastName: props.user.lastName || 'Geller',
         email: props.user.email || 'gellerross@avionics.edu',
         pwd: props.user.pwd,
         confPwd: props.user.confPwd,
         dob: props.user.dob || '12/12/1994',
-        gend: props.user.gend || 'Male',
+        gender: props.user.gender || 'M',
         addr: props.user.addr || '',
-        edu: props.user.edu || 'Masters in Engineering',
-        phone: props.user.phone || '',
+        education: props.user.education || 'Masters in Engineering',
+        phoneNumber: props.user.phoneNumber || '',
         facts: props.user.facts || "Some fun facts about me....",
         userType: props.user.userType,
-        cid: props.user.cid
+        course_ids: props.user.course_ids
     });
+
+    const [gend, setGend] = React.useState(props.user.gender === 'M' ? 'Male' : props.user.gender === 'F' ? 'Female' : 'Other');
 
     const [disabled, setDisabled] = React.useState(true);
 
@@ -30,7 +32,13 @@ const Profile = (props) => {
         let temp = {};
         if (name === 'name') {
             const fullname = value.split(' ');
-            temp = Object.assign({}, user, { 'fname': fullname[0], 'lname': fullname[1] });
+            temp = Object.assign({}, user, { 'firstName': fullname[0], 'lastName': fullname[1] });
+        }
+        else if (name === 'gend') {
+            setGend(value);
+            const gender = (value === 'Male' || value === 'male' || value === 'MALE') ? 'M' :
+                (value === 'Female' || value === 'female' || value === 'FEMALE') ? 'F' : 'O';
+            temp = Object.assign({}, user, { gender: gender });
         }
         else {
             temp = Object.assign({}, user, { [name]: value });
@@ -50,6 +58,7 @@ const Profile = (props) => {
             title="Profile"
             description="User profile page"
             userType={props.userType}
+            userReg={props.userReg}
             setUserType={props.setUserType}
         >
             <Grid container direction='row'>
@@ -58,7 +67,7 @@ const Profile = (props) => {
                         <CardMedia
                             component="img"
                             height="100%"
-                            image="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
+                            image={user.gender !== 'F' ? "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" : "/female.jpeg"}
                             alt="green iguana"
                         />
                         <CardContent className='profpic'>
@@ -80,7 +89,7 @@ const Profile = (props) => {
                                 <InputLabel htmlFor="outlined-adornment-amount">Full Name</InputLabel>
                                 <OutlinedInput
                                     id="outlined-adornment-amount"
-                                    value={user.fname.concat(' ', user.lname)}
+                                    value={user.firstName.concat(' ', user.lastName)}
                                     label="Full Name"
                                     name='name'
                                     onChange={(e) => handleChange(e)}
@@ -134,7 +143,7 @@ const Profile = (props) => {
                                 <InputLabel htmlFor="outlined-adornment-amount">Gender</InputLabel>
                                 <OutlinedInput
                                     id="outlined-adornment-amount"
-                                    value={user.gend}
+                                    value={gend}
                                     label="Gender"
                                     name='gend'
                                     onChange={(e) => handleChange(e)}
@@ -152,9 +161,9 @@ const Profile = (props) => {
                                 <InputLabel htmlFor="outlined-adornment-amount">Education</InputLabel>
                                 <OutlinedInput
                                     id="outlined-adornment-amount"
-                                    value={user.edu}
+                                    value={user.education}
                                     label="Education"
-                                    name='edu'
+                                    name='education'
                                     onChange={(e) => handleChange(e)}
                                     disabled={disabled}
                                     sx={{
@@ -170,9 +179,9 @@ const Profile = (props) => {
                                 <InputLabel htmlFor="outlined-adornment-amount">Phone Number</InputLabel>
                                 <OutlinedInput
                                     id="outlined-adornment-amount"
-                                    value={user.phone}
+                                    value={user.phoneNumber}
                                     label="Phone"
-                                    name='phone'
+                                    name='phoneNumber'
                                     onChange={(e) => handleChange(e)}
                                     disabled={disabled}
                                     sx={{

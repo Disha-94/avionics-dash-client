@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
+import { register, loginUser } from '../data/api';
 import { Grid, Paper, Avatar, TextField, Button } from '@material-ui/core'
 import Box from '@mui/material/Box';
 //import MenuItem from '@mui/material/MenuItem';
@@ -19,6 +20,7 @@ import NativeSelect from '@mui/material/NativeSelect';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import Alert from '@mui/material/Alert';
 
 const styles = {
     gridContainer: {
@@ -27,23 +29,22 @@ const styles = {
 };
 
 const Signup = (props) => {
-    const { handleUser, setUserList } = props;
     const navigate = useNavigate();
 
     const [user, setUser] = React.useState({
-        fname: '',
-        lname: '',
+        firstName: '',
+        lastName: '',
         email: '',
         pwd: '',
         confPwd: '',
         dob: '',
-        gend: 'NA',
+        gender: 'NA',
         addr: '',
-        phone: '',
-        uid: props.userLength + 1,
-        userType: 's',
-        cid: [],
-        edu: 'Masters in Engineering',
+        phoneNumber: '',
+        id: '',
+        userType: 'v',
+        course_ids: [],
+        education: 'Masters in Engineering',
         facts: "Some fun facts about me...."
 
     });
@@ -51,8 +52,8 @@ const Signup = (props) => {
         password: 'Password Mismatch',
         email: 'Incorrect Email Format',
         nullError: {
-            fname: 'First Name is Required',
-            lname: 'Last Name is Required',
+            firstName: 'First Name is Required',
+            lastName: 'Last Name is Required',
             email: 'Email is Required',
             pwd: 'Please Enter the Password',
             confPwd: 'Please Re-Enter the Password',
@@ -64,14 +65,26 @@ const Signup = (props) => {
         email: false,
         password: false,
         nullError: {
-            fname: false,
-            lname: false,
+            firstName: false,
+            lastName: false,
             email: false,
             pwd: false,
             confPwd: false,
             dob: false,
         }
     });
+
+    const [check, setCheck] = React.useState(false);
+    const [checkMsg, setCheckMsg] = React.useState('');
+
+    React.useEffect(() => {
+        if (check) {
+            setTimeout(() => {
+                setCheck(false);
+            }, 5000);
+        }
+    }, [check]);
+
 
     const handleTextChange = (event) => {
         const { name, value } = event.target;
@@ -89,7 +102,7 @@ const Signup = (props) => {
         else if (event.target.value === 'M')
             newVal = 'Male';
         else newVal = 'Other';
-        const temp = Object.assign({}, user, { gend: newVal });
+        const temp = Object.assign({}, user, { gender: newVal });
         setUser(temp);
     }
 
@@ -97,15 +110,28 @@ const Signup = (props) => {
         const nullValue = checkForEmptyFields();
         const InvalidValue = validateInput();
         if (!nullValue && !InvalidValue) {
-            setUserList([...props.userList, { ...user }]);
-            handleUser('s', user);
-            navigate("/profile");
+            register(user).then(value => {
+                if (value.data) {
+                    const login = { email: value.data.email, pwd: user.pwd }
+                    loginUser(login).then(val => {
+                        if (val.token) {
+                            props.setToken(val.token);
+                            props.handleUser(value.data.role, value.data);
+                            navigate("/profile");
+                        }
+                    })
+                }
+                else if (value.error_message) {
+                    setCheck(true);
+                    setCheckMsg(value.error_message);
+                }
+            })
         }
     }
 
     const checkForEmptyFields = () => {
         let nullValue = false;
-        ['fname', 'lname', 'email', 'pwd', 'confPwd', 'dob'].forEach(el => {
+        ['firstName', 'lastName', 'email', 'pwd', 'confPwd', 'dob'].forEach(el => {
             if (!user[el]) {
                 let nullErr = alert.nullError;
                 nullErr[el] = true;
@@ -131,6 +157,7 @@ const Signup = (props) => {
     return (
         <Grid className='signGrid' style={styles.gridContainer}>
             <Paper elevation={10} className='signPaper'>
+                {check && <Alert severity="error" className='alert' onClose={() => setCheck(false)}>{checkMsg}</Alert>}
                 <Grid align='center'>
                     <Avatar><PersonAddAltRoundedIcon /></Avatar>
                     <h2>New User</h2>
@@ -140,13 +167,13 @@ const Signup = (props) => {
                         <PersonIcon className='signIcon' />
                         <TextField
                             className='signTxtfld'
-                            error={alert.nullError.fname}
+                            error={alert.nullError.firstName}
                             label='First Name'
                             placeholder='Enter First Name'
-                            name='fname'
-                            value={user.fname}
+                            name='firstName'
+                            value={user.firstName}
                             onChange={(e) => handleTextChange(e)}
-                            helperText={alert.nullError.fname && error.nullError.fname}
+                            helperText={alert.nullError.firstName && error.nullError.firstName}
                             fullWidth
                             required />
                     </Box>
@@ -154,13 +181,13 @@ const Signup = (props) => {
                         <PersonIcon className='signIcon' />
                         <TextField
                             className='signTxtfld'
-                            error={alert.nullError.lname}
+                            error={alert.nullError.lastName}
                             label='Last Name'
                             placeholder='Enter Last Name'
-                            name='lname'
-                            value={user.lname}
+                            name='lastName'
+                            value={user.lastName}
                             onChange={(e) => handleTextChange(e)}
-                            helperText={alert.nullError.lname && error.nullError.lname}
+                            helperText={alert.nullError.lastName && error.nullError.lastName}
                             fullWidth
                             required />
                     </Box>
@@ -255,8 +282,8 @@ const Signup = (props) => {
                             className='signTxtfld'
                             label='Phone Number'
                             placeholder='XXX-XXX-XXXX'
-                            name='phone'
-                            value={user.phone}
+                            name='phoneNumber'
+                            value={user.phoneNumber}
                             onChange={(e) => handleTextChange(e)}
                             fullWidth />
                     </Box>
