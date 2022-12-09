@@ -22,3 +22,39 @@ You can run it from any command line interface (CLI)
 This should open http://localhost:3000/ in the browser and display the application
 =======
 User Interface for Avionics Dash application
+
+Credentials for user types
+
+Instructor
+1.
+First name: Janice
+Last name: Hosenstein
+Email: hosenstein@gmail.com
+Password: enpm613
+Phone: +17096987654
+
+2.
+First name: Gunther
+Last name: John
+Email: gunther@gmail.com
+Password: enpm613
+Phone: +17096987654
+
+Student
+1.
+First name: Rachel
+Last name: Green
+Email: green@gmail.com
+Password: enpm613
+
+
+New Assignments
+Assignment-4
+Which 4 forces are involved in flight? Draw different things that fly and show where the forces are acting.
+12/22/2022
+40
+
+Assignment-5
+Learn how Bernoulli’s principle explains flight using the balloon blow apart activity 
+12/30/2022
+30
