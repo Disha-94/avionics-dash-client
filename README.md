@@ -21,7 +21,7 @@ You can run it from any command line interface (CLI)
 
 This should open http://localhost:3000/ in the browser and display the application
 =======
-User Interface for Avionics Dash application
+User Interface for Avionics Dash application: https://avionicsdash.netlify.app/
 
 Credentials for user types
 
