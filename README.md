@@ -26,25 +26,16 @@ User Interface for Avionics Dash application: https://avionicsdash.netlify.app/
 Credentials for user types
 
 Instructor
-1.
-First name: Janice
-Last name: Hosenstein
-Email: hosenstein@gmail.com
-Password: enpm613
-Phone: +17096987654
-
-2.
 First name: Gunther
 Last name: John
-Email: gunther@gmail.com
+Email: johngunther@avionics.edu
 Password: enpm613
 Phone: +17096987654
 
 Student
-1.
 First name: Rachel
 Last name: Green
-Email: green@gmail.com
+Email: greenrachel@avionics.edu
 Password: enpm613
 
 
